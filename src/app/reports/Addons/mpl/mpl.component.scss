@@ -25,7 +25,7 @@
   width: 520px;
   height: 404px;
   position: relative; /* Ensure it is positioned relative to the page flow */
-  z-index: 2; /* Ensure the form appears above the background image */
+  z-index: 1; /* Ensure the form appears above the background image */
 }
 .heading{
     margin-right: 6rem;
