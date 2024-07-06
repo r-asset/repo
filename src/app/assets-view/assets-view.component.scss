@@ -1,0 +1,28 @@
+.container-fluid{
+  margin-left: 5%; /* Sidebar width */
+  margin-top: 5%; /* Topbar height */
+  padding: 30px;
+  display:flex;
+  position: relative;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  // justify-content: space-between;
+}
+.map1, .map2, .map3, .flex1{
+  margin: 0% 3% 1% 0%;
+}
+
+.secondary{
+  margin-left: 5%;
+  padding: 2%;
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  justify-content: stretch;
+}
+
+.flex1, .flex2{
+  min-width: 25%;
+  max-width: 80%;
+}

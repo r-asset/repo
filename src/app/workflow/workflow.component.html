@@ -1,0 +1,605 @@
+<div class="container-fluid">
+        <p-tabView>
+            <p-tabPanel header="Workflow">
+                <div class="options">
+                    <div>
+                        <p-dropdown [options]="dropdown" [(ngModel)]="selectedEvent" optionLabel="name" optionValue="code" placeholder="Select the Event" [style]="{'width':'200px'}"></p-dropdown> 
+                        
+                        <p-button styleClass="p-button-sm" *ngIf="selectedEvent" class="ms-2" (onClick)="openDialog()">Add Event</p-button>
+                    </div>
+                     <div class="exportbutton">
+                        <p-button icon="pi pi-file-excel" label="Export" styleClass="p-button-raised p-button-success p-button-text"  pTooltip="XLS" tooltipPosition="bottom" [style]="{'width':'120px','height':'37px'}" (click)="exportExcel()"><i class="pi pi-file-excel"></i></p-button>
+                    </div>
+
+                    <div  class="searchtab">
+                        <span class="p-input-icon-left ml-auto" >
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text"  (input)="applyFilterGlobal($event, 'contains')" placeholder="Search" [style]="{'width':'180px'}"/>     
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mt-4">
+                    <div class="box shadow-sm">
+                        <p-table  #myTable 
+                            id = "dom"
+                            [value]="tableData" 
+                            dataKey="id"
+                            [scrollable]="true" 
+                            scrollHeight="500px"
+                            [loading]="loading"
+                            [filterDelay]="0"
+                            [globalFilterFields]="['rowIndex','Status','Name','Type','Description','Priority','Alert','Created On','Created By','Modified On','Modified By']"
+                            styleClass="p-datatable-sm"
+                            [rows]="20"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Events"
+                            [showCurrentPageReport]="true"
+                            [rowsPerPageOptions]="[50, 100, 500]"
+                            [paginator]="true"
+                            
+                            >
+
+                            <ng-template pTemplate="header" style="text-shadow: red;" >
+                                <tr>
+                                    <th pSortableColumn="rowIndex"   > S.No         <p-sortIcon field="rowIndex" ></p-sortIcon></th>
+                                    <th pSortableColumn="Status"     > Status       <p-sortIcon field="Status" ></p-sortIcon></th>
+                                    <th pSortableColumn="Name"       > Name         <p-sortIcon field="Name"></p-sortIcon></th>
+                                    <th pSortableColumn="Type"       > Type         <p-sortIcon field="Type"></p-sortIcon></th>
+                                    <th pSortableColumn="Description"> Description  <p-sortIcon field="Description"></p-sortIcon></th>
+                                    <th pSortableColumn="Priority"   > Priority     <p-sortIcon field="Priority"></p-sortIcon></th>
+                                    <th pSortableColumn="Alert"      > Alert        <p-sortIcon field="Alert"></p-sortIcon></th>
+                                    <th pSortableColumn="Created On" > Created On   <p-sortIcon field="Created On" ></p-sortIcon></th>
+                                    <th pSortableColumn="Created By" > Created By   <p-sortIcon field="Created By" ></p-sortIcon></th>
+                                    <th pSortableColumn="Modified On"> Modified On      <p-sortIcon field="Modified On" ></p-sortIcon></th>
+                                    <th pSortableColumn="Modified By"> Modified By  <p-sortIcon field="Modified By" ></p-sortIcon></th>
+                                    <th > Edit             </th>
+                                    <th > Delete           </th>
+                                </tr>
+                            </ng-template>
+                          
+                            <ng-template pTemplate="body" let-row let-rowIndex="rowIndex +1">
+                                <tr>
+                                    <td> {{ rowIndex }} </td>
+                                    <td> 
+                                        <img *ngIf="(row.wfactive)" src="assets/active.jpg">
+                                        <img *ngIf="!(row.wfactive)" src="assets/inactive.jpg">
+                                    </td>
+                                    <td> {{ row.wfeventname }}</td>
+                                    <td> {{row.wftype}}</td>
+                                    <td> {{ row.wfdescription }}</td>
+                                    <td> {{ row.wfpriority }} </td>
+                                    <td> {{ row.wfalertmessage }}</td>
+                                    <td> {{ row.wfcreatedon| date }}</td>
+                                    <td> {{ row.wfcreatedby }}</td>
+                                    <td> {{ row.wfmodifiedon | date  }}</td>
+                                    <td> {{ row.wfmodifiedby }}</td>
+                                    <td> 
+                                        <svg id="changeColor " fill="#DC7633" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" (click)="editRow(row)" width="30" zoomAndPan="magnify" viewBox="0 0 375 374.9999" height="25" preserveAspectRatio="xMidYMid meet" version="1.0"><defs></defs><g></g><g id="inner-icon" transform="translate(80,70) "> <svg xmlns="http://www.w3.org/2000/svg" width="261" height="261" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3" id="IconChangeColor"><path d="M12 20h9" id="mainIconPathAttribute" stroke-width="1.2" stroke="#478ecd"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" id="mainIconPathAttribute" stroke="#478ecd"></path></svg> </g></svg>
+                                    </td>
+                                    <td>
+                                        <svg id="changeColor" fill="#DC7633" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" (click)="deleteRow(row)" zoomAndPan="magnify" viewBox="0 0 375 374.9999" height="25" version="1.0"><defs></defs><g></g><g id="inner-icon" transform="translate(85, 75)"> <svg xmlns="http://www.w3.org/2000/svg" width="199.8" height="199.8" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16" id="IconChangeColor"> <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" id="mainIconPathAttribute" fill="#f50505"></path> <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" id="mainIconPathAttribute" fill="#f50505"></path> </svg> </g></svg>    
+                                    </td>
+                                </tr>
+                            </ng-template>
+                           
+                        </p-table>
+    
+                    </div>    
+                </div>
+            </p-tabPanel>
+            <p-tabPanel header="Preventive Maintenance">
+                Content 
+            </p-tabPanel>
+        </p-tabView>
+        
+</div>
+
+<p-dialog  [(visible)]="display" header="New {{selectedEvent}} event" [maximizable]="true" [responsive]="true" [style]="{ width: '55vw', height: '500px' }" [modal]="true">
+        <form [formGroup]="Addform" (ngSubmit)="AddNewForm()" novalidate>
+           <pre>-Workflow Details</pre>
+           <div class="formgroup-inline">
+                <div class="field">
+                    <label for="text" class="block mb-2" style="width:350px">Name</label>
+                    <input pInputText id="text" formControlName="wfeventname" type="text"  class="w-full" [maxLength]="150"/>
+                </div>
+                <div class="field">
+                    <label for="text" class="block mb-2" style="width:350px">Description</label>
+                    <textarea  pInputTextarea  id="text" formControlName="wfdescription" type="text"  class="w-full"  [style]="{'height':'50px'}"></textarea>
+                </div>
+            </div>
+
+    
+
+                <pre> -Subscriber</pre>
+
+                <div class="field grid" >
+                    <div class="col">
+                        <p-checkbox inputId="checkbox" [binary]="true" formControlName="sclassification"></p-checkbox>
+                        <label for="checkbox" style="width:100px">&nbsp; Select All</label>
+                    </div>
+                </div>
+                
+                <div class="formgroup-inline">
+                   <div class="field">
+                        <label for="dropdown" class="block mb-2" style="width:100px">Status</label>
+                        <p-dropdown [options]="status" id="dropdown" formControlName="sstatus" optionValue="code" placeholder="Nothing Selected" class="w-full" [style]="{'width':'170px'}"></p-dropdown>
+                    </div>
+                    <div class="field">
+                        <label for="dropdown" class="block mb-2" style="width:100px">Condition</label>
+                        
+                            <p-dropdown [options]="conditions" id="dropdown"  formControlName="scondition"   placeholder="Nothing Selected" class="w-full" [style]="{'width':'170px'}"></p-dropdown>
+                    </div>
+                    <div class="field">
+                        <label for="dropdown" class="block mb-2" style="width:100px">Category</label>
+                        
+                            <p-dropdown [options]="categorys" id="dropdown"  formControlName="scategory" optionLabel="name" optionValue="code" placeholder="nothing Selected" class="w-full" [style]="{'width':'170px'}"></p-dropdown>
+                    </div>
+                    <div class="field">
+                        <label for="dropdown" class="block mb-2" style="width:100px">Item</label>
+                        
+                            <p-dropdown [options]="items" id="dropdown" formControlName="sitem" optionLabel="name" optionValue="code" placeholder="Nothing Selected" class="w-full" [style]="{'width':'170px'}"></p-dropdown>
+                    </div>
+                </div>
+   
+
+            <div *ngIf="selectedEvent == 'Absence'">
+                
+                <pre>-Condition</pre>
+                <div class="field grid">
+                    <label for="time" class="col-fixed" style="width:220px">Remind Me Each </label>
+                    <div class="col">
+                        <input id="time" formControlName = "rmeacht" min="0" max="59" type="number" placeholder="(0-59)" pInputText  />
+                    </div>
+                </div>
+                <div class="field grid">
+                    <label for="time" class="col-fixed" style="width:220px">Item is absente for period of</label>
+                    <div class="col">
+                        <input id="time" min="0" max="59" type="number" placeholder="(0-59)" pInputText formControlName = "wfmins" /> &nbsp;
+                        <input id="time" min="0" max="59" type="number" placeholder="(0-23)" pInputText  formControlName = "wfhrs" /> &nbsp;
+                         <input id="time" min="0" max="59" type="number" placeholder="(0-31)" pInputText formControlName = "wfdays" />
+                    </div>
+                </div>
+            </div>
+   
+
+                <pre>-Action</pre>
+                <div class="formgroup-inline">  
+                    <div class="field">
+                        <label for="email" class="block mb-2"  style="width:350px">To Email</label>
+                        
+                            <input pInputText id="email" formControlName="atoemail" type="email" class="w-full" [maxLength]="150"/>
+                    </div>
+                    <div class="field">
+                        <label for="dropdown" class="block mb-2"  style="width:350px">Subject</label>
+                        
+                            <textarea rows="2" cols="30" formControlName="asubject" pInputTextarea class="w-full" [style]="{'height':'50px'}"></textarea>
+                    </div>
+                </div>
+   
+
+                <pre>-Scheduling</pre>
+                <div class="field grid">
+                    <label for="time" class="col-fixed" style="width:210px"> Report to be sent on :</label>
+                    <div class="col">
+                         <input pInputText type="time" id="time" formControlName="stime"/>
+                    </div>
+                 </div>
+                 <section formGroupName="schedule_days">
+                 <div class="field grid" >
+                     <label for="days" class="col-fixed" style="width:210px"> Select the remainder days :</label>
+                     <div class="col">
+                         <p-checkbox inputId="sun" [binary]="true"  formControlName="ssun"></p-checkbox><label for="sun">&nbsp; Sun</label> &nbsp;
+                         <p-checkbox inputId="mon" [binary]="true"  formControlName="smon"></p-checkbox><label for="mon">&nbsp; Mon</label> &nbsp;
+                         <p-checkbox inputId="tue" [binary]="true"  formControlName="stue"></p-checkbox><label for="tue">&nbsp; Tue</label> &nbsp;
+                         <p-checkbox inputId="wed" [binary]="true"  formControlName="swed"></p-checkbox><label for="wed">&nbsp; Wed</label> &nbsp;
+                         <p-checkbox inputId="thu" [binary]="true"  formControlName="sthu"></p-checkbox><label for="thu">&nbsp; Thu</label> &nbsp;
+                         <p-checkbox inputId="fri" [binary]="true"  formControlName="sfri"></p-checkbox><label for="fri">&nbsp; Fri</label> &nbsp;
+                         <p-checkbox inputId="sat" [binary]="true"  formControlName="ssat"></p-checkbox><label for="sat">&nbsp; Sat</label> 
+                     </div>
+                 </div>
+             </section>
+         
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" id="savebutton" [disabled]="!Addform.valid"></button>
+       
+            <!-- <p-tabView>
+                <p-tabPanel header="Workflow Details">
+                    <div class="flex flex-wrap gap-5 mb-4">
+                        <div class="flex-auto">
+                            <label for="text" class="block mb-2"> Name </label>
+                            <input pInputText id="text" formControlName="wfeventname" class="w-full" [style]="{'width':'180px'}" />
+                        </div>
+                        <div class="flex-auto">
+                            <label for="number" class="block mb-2"> Event Group </label>
+                            <input pInputText id="number" formControlName="wfeventgroup" class="w-full" [style]="{'width':'180px'}" />
+                        </div>
+                        <div class="flex-auto">
+                            <label for="number" class="block mb-2"> Reset Interval </label>
+                            <input pInputText id="number" formControlName="wfresetinterval" class="w-full" [style]="{'width':'180px'}" />
+                        </div>
+                        <div class="flex-auto">
+                            <label for="dropdown" class="block mb-2"> Priority </label>
+                            <p-dropdown [options]="dropdown" id="dropdown" formControlName="wfpriority" optionLabel="name" optionValue="code" placeholder="Select Priority level" class="w-full" [style]="{'width':'180px'}" [style]="{'width':'180px'}"></p-dropdown>
+                        </div> 
+                        <div class="flex-auto ">
+                            <label for="active" class="block mb-2">Active</label> 
+                            <p-inputSwitch [(ngModel)]="checked" inputId="active" formControlName="wfactive" > </p-inputSwitch> 
+                                                                                   
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <div class="flex-auto">
+                            <label for="text" class="block mb-2"> Description </label>
+                            <textarea rows="2" cols="30" pInputTextarea formControlName="wfdescription" class="w-full" [style]="{'width':'180px'}"></textarea>
+                        </div>
+                        <div class="flex-auto">
+                            <label for="text" class="block mb-2"> Enter Text To Be Included in Alerts </label>
+                            <textarea rows="2" cols="30" pInputTextarea formControlName="wfalertmessage" class="w-full" [style]="{'width':'180px'}"></textarea>
+                        </div>
+                        <div class="flex-auto">
+                            <label for="text" class="block mb-2">Enter Corrective Instructions </label>
+                            <textarea rows="2" cols="30" pInputTextarea formControlName="wfcorrectmessage" class="w-full" [style]="{'width':'180px'}"></textarea>
+                        </div>
+                    </div>
+                </p-tabPanel>
+                <p-tabPanel header="Subscriber">
+                   
+                    <div class="field grid">
+                        <p-checkbox inputId="checkbox" [binary]="true" formControlName="sclassification"></p-checkbox>
+                        <div class="col">       
+                            <label for="checkbox" class="col-fixed" style="width:100px">Select All</label>
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="dropdown" class="col-fixed" style="width:100px">Status</label>
+                        <div class="col">
+                            <p-dropdown [options]="dropdown" id="dropdown" formControlName="sstatus" optionLabel="name" optionValue="code" placeholder="Select Priority level" class="w-full" [style]="{'width':'180px'}"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="dropdown" class="col-fixed" style="width:100px">Condition</label>
+                        <div class="col">
+                            <p-dropdown [options]="conditions" id="dropdown"  formControlName="scondition" optionLabel="conditions"  placeholder="Nothing Selected" class="w-full" [style]="{'width':'180px'}"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="dropdown" class="col-fixed" style="width:100px">Category</label>
+                        <div class="col">
+                            <p-dropdown [options]="dropdown" id="dropdown"  formControlName="scategory" optionLabel="name" optionValue="code" placeholder="Select Priority level" class="w-full" [style]="{'width':'180px'}"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="dropdown" class="col-fixed" style="width:100px">Item</label>
+                        <div class="col">
+                            <p-dropdown [options]="dropdown" id="dropdown" formControlName="sitem" optionLabel="name" optionValue="code" placeholder="Select Priority level" class="w-full" [style]="{'width':'180px'}"></p-dropdown>
+                        </div>
+                    </div>
+
+                </p-tabPanel>
+
+                <p-tabPanel header="Condition" *ngIf="selectedEvent == 'Absence'">
+                        <div class="field grid">
+                            <label for="time" class="col-fixed" style="width:220px">Remind Me Each </label>
+                            <div class="col">
+                                <input id="time" formControlName = "rmeacht" min="0" max="59" type="number" placeholder="(0-59)" pInputText  />
+                            </div>
+                        </div>
+                        <div class="field grid">
+                            <label for="time" class="col-fixed" style="width:220px">Item is absente for period of</label>
+                            <div class="col">
+                                <input id="time" min="0" max="59" type="number" placeholder="(0-59)" pInputText formControlName = "wfmins" /> &nbsp;
+                            <input id="time" min="0" max="59" type="number" placeholder="(0-23)" pInputText  formControlName = "wfhrs" /> &nbsp;
+                            <input id="time" min="0" max="59" type="number" placeholder="(0-31)" pInputText formControlName = "wfdays" />
+                        </div>
+                     </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="Action">
+                    <div class="field grid">
+                        <label for="email" class="col-fixed" style="width:100px">To Email</label>
+                        <div class="col">
+                            <input pInputText id="email" formControlName="atoemail" type="email" class="w-full" />
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="dropdown" class="col-fixed" style="width:100px">Subject</label>
+                        <div class="col">
+                            <textarea rows="2" cols="30" formControlName="asubject" pInputTextarea class="w-full"></textarea>
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="priority" class="col-fixed" style="width:100px">Priority</label>
+                        <div class="col">
+                            <p-dropdown [options]="priorityLevel" id="priority" formControlName="apriority" optionLabel="name" optionValue="code" placeholder="Select Priority level" class="w-full" ></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="dropdown" class="col-fixed" style="width:100px">Message</label>
+                        <div class="col">
+                            <textarea rows="2" cols="30" formControlName="amessage" pInputTextarea class="w-full" ></textarea>
+                        </div>
+                    </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="Scheduling">
+                    <div class="field grid">
+                       <label for="time" class="col-fixed" style="width:210px"> Report to be sent on :</label>
+                       <div class="col">
+                            <input pInputText type="time" id="time" formControlName="stime"/>
+                       </div>
+                    </div>
+                    <section formGroupName="schedule_days">
+                    <div class="field grid" >
+                        <label for="days" class="col-fixed" style="width:210px"> Select the remainder days :</label>
+                        <div class="col">
+                            <p-checkbox inputId="sun" [binary]="true"  formControlName="ssun"></p-checkbox><label for="sun">&nbsp; Sun</label> &nbsp;
+                            <p-checkbox inputId="mon" [binary]="true"  formControlName="smon"></p-checkbox><label for="mon">&nbsp; Mon</label> &nbsp;
+                            <p-checkbox inputId="tue" [binary]="true"  formControlName="stue"></p-checkbox><label for="tue">&nbsp; Tue</label> &nbsp;
+                            <p-checkbox inputId="wed" [binary]="true"  formControlName="swed"></p-checkbox><label for="wed">&nbsp; Wed</label> &nbsp;
+                            <p-checkbox inputId="thu" [binary]="true"  formControlName="sthu"></p-checkbox><label for="thu">&nbsp; Thu</label> &nbsp;
+                            <p-checkbox inputId="fri" [binary]="true"  formControlName="sfri"></p-checkbox><label for="fri">&nbsp; Fri</label> &nbsp;
+                            <p-checkbox inputId="sat" [binary]="true"  formControlName="ssat"></p-checkbox><label for="sat">&nbsp; Sat</label> 
+                        </div>
+                    </div>
+                </section>
+                </p-tabPanel>
+            </p-tabView>
+            <p-footer>
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"></button>
+            </p-footer> -->
+        </form>
+
+</p-dialog>
+
+
+<p-dialog  [(visible)]="Editpopup" [modal]="true" header="Edit {{selectedEvent}} event" [maximizable]="true" [responsive]="true" [style]="{ width: '55vw', height: '500px' }">
+
+        <form [formGroup]="Editform" (ngSubmit)="EditForm()" novalidate>
+            <pre>-Workflow Details</pre>
+           <div class="formgroup-inline">
+                <div class="field">
+                    <label for="text" class="block mb-2" style="width:350px">Name</label>
+                    <input pInputText id="text" formControlName="wfeventname" type="text"  class="w-full"/>
+                </div>
+                <div class="field">
+                    <label for="text" class="block mb-2" style="width:350px">Description</label>
+                    <textarea  pInputTextarea  id="text" formControlName="wfdescription" type="text"  class="w-full"  [style]="{'height':'50px'}"></textarea>
+                </div>
+            </div>
+
+    
+
+                <pre> -Subscriber</pre>
+                <div class="formgroup-inline checkbox">
+                   <div class="field">
+                        <p-checkbox inputId="checkbox" [binary]="true" formControlName="sclassification"></p-checkbox>
+                        <label for="checkbox" style="width:100px">&nbsp; Select All</label>
+                    </div> 
+                </div>
+                
+                <div class="formgroup-inline">
+                   <div class="field">
+                        <label for="dropdown" class="block mb-2" style="width:100px">Status</label>
+                        <p-dropdown [options]="dropdown" id="dropdown" formControlName="sstatus" optionLabel="name" optionValue="code" placeholder="Select Priority level" class="w-full" [style]="{'width':'170px'}"></p-dropdown>
+                    </div>
+                    <div class="field">
+                        <label for="dropdown" class="block mb-2" style="width:100px">Condition</label>
+                        
+                            <p-dropdown [options]="conditions" id="dropdown"  formControlName="scondition" optionLabel="conditions"  placeholder="Select Condition" class="w-full" [style]="{'width':'170px'}"></p-dropdown>
+                    </div>
+                    <div class="field">
+                        <label for="dropdown" class="block mb-2" style="width:100px">Category</label>
+                        
+                            <p-dropdown [options]="dropdown" id="dropdown"  formControlName="scategory" optionLabel="name" optionValue="code" placeholder="Select Priority level" class="w-full" [style]="{'width':'170px'}"></p-dropdown>
+                    </div>
+                    <div class="field">
+                        <label for="dropdown" class="block mb-2" style="width:100px">Item</label>
+                        
+                            <p-dropdown [options]="dropdown" id="dropdown" formControlName="sitem" optionLabel="name" optionValue="code" placeholder="Select Priority level" class="w-full" [style]="{'width':'170px'}"></p-dropdown>
+                    </div>
+                </div>
+   
+
+            <div *ngIf="selectedEvent == 'Absence'">
+                
+                <pre>-Condition</pre>
+                <div class="field grid">
+                    <label for="time" class="col-fixed" style="width:220px">Remind Me Each </label>
+                    <div class="col">
+                        <input id="time" formControlName = "rmeacht" min="0" max="59" type="number" placeholder="(0-59)" pInputText  />
+                    </div>
+                </div>
+                <div class="field grid">
+                    <label for="time" class="col-fixed" style="width:220px">Item is absente for period of</label>
+                    <div class="col">
+                        <input id="time" min="0" max="59" type="number" placeholder="(0-59)" pInputText formControlName = "wfmins" /> &nbsp;
+                        <input id="time" min="0" max="59" type="number" placeholder="(0-23)" pInputText  formControlName = "wfhrs" /> &nbsp;
+                         <input id="time" min="0" max="59" type="number" placeholder="(0-31)" pInputText formControlName = "wfdays" />
+                    </div>
+                </div>
+            </div>
+   
+
+                <pre>-Action</pre>
+                <div class="formgroup-inline">  
+                    <div class="field">
+                        <label for="email" class="block mb-2"  style="width:350px">To Email</label>
+                        
+                            <input pInputText id="email" formControlName="atoemail" type="email" class="w-full" />
+                    </div>
+                    <div class="field">
+                        <label for="dropdown" class="block mb-2"  style="width:350px">Subject</label>
+                        
+                            <textarea rows="2" cols="30" formControlName="asubject" pInputTextarea class="w-full" [style]="{'height':'50px'}"></textarea>
+                    </div>
+                </div>
+   
+
+                <pre>-Scheduling</pre>
+                <div class="field grid">
+                    <label for="time" class="col-fixed" style="width:210px"> Report to be sent on :</label>
+                    <div class="col">
+                         <input pInputText type="time" id="time" formControlName="stime"/>
+                    </div>
+                 </div>
+                 <section formGroupName="schedule_days">
+                 <div class="field grid" >
+                     <label for="days" class="col-fixed" style="width:210px"> Select the remainder days :</label>
+                     <div class="col">
+                         <p-checkbox inputId="sun" [binary]="true"  formControlName="ssun"></p-checkbox><label for="sun">&nbsp; Sun</label> &nbsp;
+                         <p-checkbox inputId="mon" [binary]="true"  formControlName="smon"></p-checkbox><label for="mon">&nbsp; Mon</label> &nbsp;
+                         <p-checkbox inputId="tue" [binary]="true"  formControlName="stue"></p-checkbox><label for="tue">&nbsp; Tue</label> &nbsp;
+                         <p-checkbox inputId="wed" [binary]="true"  formControlName="swed"></p-checkbox><label for="wed">&nbsp; Wed</label> &nbsp;
+                         <p-checkbox inputId="thu" [binary]="true"  formControlName="sthu"></p-checkbox><label for="thu">&nbsp; Thu</label> &nbsp;
+                         <p-checkbox inputId="fri" [binary]="true"  formControlName="sfri"></p-checkbox><label for="fri">&nbsp; Fri</label> &nbsp;
+                         <p-checkbox inputId="sat" [binary]="true"  formControlName="ssat"></p-checkbox><label for="sat">&nbsp; Sat</label> 
+                     </div>
+                 </div>
+             </section>
+            <!-- <p-tabView>
+                <p-tabPanel header="Workflow Details">
+                    <div class="flex flex-wrap gap-5 mb-4">
+                        <div class="flex-auto">
+                            <label for="text" class="block mb-2"> Name </label>
+                            <input pInputText id="text"  class="w-full" [style]="{'width':'180px'}" />
+                        </div>
+                        <div class="flex-auto">
+                            <label for="number" class="block mb-2"> Event Group </label>
+                            <input pInputText id="number"  class="w-full" [style]="{'width':'180px'}" disabled />
+                        </div>
+                        <div class="flex-auto">
+                            <label for="number" class="block mb-2"> Reset Interval </label>
+                            <input pInputText id="number" class="w-full" [style]="{'width':'180px'}" />
+                        </div>
+                        <div class="flex-auto">
+                            <label for="dropdown" class="block mb-2"> Priority </label>
+                            <p-dropdown [options]="dropdown" id="dropdown" optionLabel="name" optionValue="code" placeholder="Select Priority level" class="w-full" [style]="{'width':'180px'}" [style]="{'width':'180px'}"></p-dropdown>
+                        </div>
+                        <div class="flex-auto ">
+                            <label for="active" class="block mb-2">Active</label> 
+                            <p-inputSwitch [(ngModel)]="checked" inputId="active"  > </p-inputSwitch> 
+                                                                                   
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <div class="flex-auto">
+                            <label for="text" class="block mb-2"> Description </label>
+                            <textarea rows="2" cols="30" pInputTextarea  class="w-full" [style]="{'width':'180px'}"></textarea>
+                        </div>
+                        <div class="flex-auto">
+                            <label for="text" class="block mb-2"> Enter Text To Be Included in Alerts </label>
+                            <textarea rows="2" cols="30" pInputTextarea class="w-full" [style]="{'width':'180px'}"></textarea>
+                        </div>
+                        <div class="flex-auto">
+                            <label for="text" class="block mb-2">Enter Corrective Instructions </label>
+                            <textarea rows="2" cols="30" pInputTextarea class="w-full" [style]="{'width':'180px'}"></textarea>
+                        </div>
+                    </div>
+                </p-tabPanel>
+                <p-tabPanel header="Subscriber">
+                   
+                    <div class="field grid">
+                        <p-checkbox inputId="checkbox" [binary]="true" ></p-checkbox>
+                        <div class="col">       
+                            <label for="checkbox" class="col-fixed" style="width:100px">Select All</label>
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="dropdown" class="col-fixed" style="width:100px">Status</label>
+                        <div class="col">
+                            <p-dropdown [options]="dropdown" id="dropdown" optionLabel="name" optionValue="code" placeholder="Select Priority level" class="w-full" [style]="{'width':'180px'}"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="dropdown" class="col-fixed" style="width:100px">Condition</label>
+                        <div class="col">
+                            <p-dropdown [options]="conditions" id="dropdown" optionLabel="conditions"  placeholder="Select Condition" class="w-full" [style]="{'width':'180px'}"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="dropdown" class="col-fixed" style="width:100px">Category</label>
+                        <div class="col">
+                            <p-dropdown [options]="dropdown" id="dropdown" optionLabel="name" optionValue="code" placeholder="Select Priority level" class="w-full" [style]="{'width':'180px'}"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="dropdown" class="col-fixed" style="width:100px">Item</label>
+                        <div class="col">
+                            <p-dropdown [options]="dropdown" id="dropdown" optionLabel="name" optionValue="code" placeholder="Select Priority level" class="w-full" [style]="{'width':'180px'}"></p-dropdown>
+                        </div>
+                    </div>
+
+                </p-tabPanel>
+
+                <p-tabPanel header="Condition" *ngIf="selectedEvent == 'Absence'">
+                    <div class="field grid">
+                        <label for="time" class="col-fixed" style="width:220px">Remind Me Each </label>
+                        <div class="col">
+                            <input id="time" min="0" max="59" type="number" placeholder="(0-59)" pInputText  />
+                        </div>
+                     </div>
+                     <div class="field grid">
+                        <label for="time" class="col-fixed" style="width:220px">Item is absente for period of</label>
+                        <div class="col">
+                            <input id="time" min="0" max="59" type="number" placeholder="(0-59)" pInputText  /> &nbsp;
+                            <input id="time" min="0" max="59" type="number" placeholder="(0-23)" pInputText  /> &nbsp;
+                            <input id="time" min="0" max="59" type="number" placeholder="(0-31)" pInputText  />
+                        </div>
+                     </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="Action">
+                    <div class="field grid">
+                        <label for="email" class="col-fixed" style="width:100px">To Email</label>
+                        <div class="col">
+                            <input pInputText id="email" type="email" class="w-full" />
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="dropdown" class="col-fixed" style="width:100px">Subject</label>
+                        <div class="col">
+                            <textarea rows="2" cols="30" pInputTextarea class="w-full"></textarea>
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="priority" class="col-fixed" style="width:100px">Priority</label>
+                        <div class="col">
+                            <p-dropdown [options]="priorityLevel" id="priority" optionLabel="name" optionValue="code" placeholder="Select Priority level" class="w-full" ></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="dropdown" class="col-fixed" style="width:100px">Message</label>
+                        <div class="col">
+                            <textarea rows="2" cols="30" pInputTextarea class="w-full" ></textarea>
+                        </div>
+                    </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="Scheduling">
+                    <div class="field grid">
+                       <label for="time" class="col-fixed" style="width:210px"> Report to be sent on :</label>
+                       <div class="col">
+                            <input pInputText type="time" id="time" />
+                       </div>
+                    </div>
+                    <div class="field grid" >
+                        <label for="days" class="col-fixed" style="width:210px"> Select the remainder days :</label>
+                        <div class="col">
+                            <p-checkbox inputId="sun" [binary]="true" ></p-checkbox><label for="sun">&nbsp; Sun</label> &nbsp;
+                            <p-checkbox inputId="mon" [binary]="true" ></p-checkbox><label for="mon">&nbsp; Mon</label> &nbsp;
+                            <p-checkbox inputId="tue" [binary]="true" ></p-checkbox><label for="tue">&nbsp; Tue</label> &nbsp;
+                            <p-checkbox inputId="wed" [binary]="true" ></p-checkbox><label for="wed">&nbsp; Wed</label> &nbsp;
+                            <p-checkbox inputId="thu" [binary]="true" ></p-checkbox><label for="thu">&nbsp; Thu</label> &nbsp;
+                            <p-checkbox inputId="fri" [binary]="true" ></p-checkbox><label for="fri">&nbsp; Fri</label> &nbsp;
+                            <p-checkbox inputId="sat" [binary]="true" ></p-checkbox><label for="sat">&nbsp; Sat</label> 
+                        </div>
+                    </div>
+                    
+                </p-tabPanel>
+            </p-tabView>
+           
+           
+                 <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" ></button> -->
+                <button pButton pRipple label="Update" icon="pi pi-check" class="p-button-text" id="savebutton"> </button>
+           
+        </form>
+</p-dialog>

@@ -1,0 +1,55 @@
+@import "primeicons/primeicons.css";
+.container-fluid{
+  margin-left: 60px; /* Sidebar width */
+  margin-top: 60px; /* Topbar height */
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+::ng-deep {
+    .p-datatable th {
+        color: red !important;
+        text-align: center !important;
+        font-size: small;
+    }
+}
+::ng-deep {
+    .p-datatable td {
+        text-align: center !important;
+        font-size: small;
+    }
+}
+
+::ng-deep {
+    .p-sortable-column-icon {
+        width: 12px !important;
+        height: 12px !important;
+    }
+}
+.searchtab{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.options{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.exportbutton{
+
+    // display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 4rem;
+}
+#savebutton{
+    float:right;
+    height:35px;
+    margin-top: -1rem;
+}
+// .checkbox{
+//     display:flex;
+//     align-items: center;
+//     justify-content: center;
+// }

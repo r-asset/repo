@@ -1,0 +1,33 @@
+@import "primeicons/primeicons.css";
+
+th{
+    font-size:small;
+    color: red !important;
+    text-align: center !important;
+    text-transform: uppercase;
+}
+td{
+    // font-size:small;
+    text-align: center !important;
+    text-transform: uppercase;
+}
+#savebutton{
+    float:right;
+    height:35px;
+    margin-top: 1rem;
+}
+::ng-deep {
+  .p-datatable th {
+      font-size:small;
+      color: #000000 !important;
+      text-align: center !important;
+      text-transform: uppercase;
+      background: #FFCDCD !important;
+
+  }
+}
+::ng-deep {
+.p-datatable-wrapper{
+  border-radius: 6px;
+}
+}

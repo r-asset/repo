@@ -1,0 +1,64 @@
+<div class="container-fluid">
+  <div class="custom">
+    <div class="report-container">
+      <p-tabView [(activeIndex)]="activeIndex" (onChange)="onTabChange($event)">
+        <!-- <img id="defaultImage" class="bg" [src]="defaultBackground" alt="Default Background" style="display: none;">
+        <img id="pathTrackingImage" class="bg2" [src]="pathTrackingGif" alt="Path Tracking" > -->
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2">
+              <img [src]="getImageSource(0)" class="tab-icon" alt="Path Tracking Icon"/>
+              <span class="font-bold white-space-nowrap m-0">Path Tracking</span>
+            </div>
+          </ng-template>
+          <app-path-tracking></app-path-tracking>
+        </p-tabPanel>
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2">
+              <img [src]="getImageSource(1)" class="tab-icon" alt="Dwell Report Icon"/>
+              <span class="font-bold white-space-nowrap m-0">DWELL Report</span>
+            </div>
+          </ng-template>
+          <app-dwell-report></app-dwell-report>
+        </p-tabPanel>
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2">
+              <img [src]="getImageSource(2)" class="tab-icon" alt="In & Out Report Icon"/>
+              <span class="font-bold white-space-nowrap m-0">In & Out Report</span>
+            </div>
+          </ng-template>
+          <app-inout-report></app-inout-report>
+        </p-tabPanel>
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2">
+              <img [src]="getImageSource(3)" class="tab-icon" alt="Asset Availability Icon"/>
+              <span class="font-bold white-space-nowrap m-0">Asset Availability</span>
+            </div>
+          </ng-template>
+          <app-asset-availability></app-asset-availability>
+        </p-tabPanel>
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2">
+              <img [src]="getImageSource(4)" class="tab-icon" alt="MPL Icon"/>
+              <span class="font-bold white-space-nowrap m-0">MPL</span>
+            </div>
+          </ng-template>
+          <app-mpl></app-mpl>
+        </p-tabPanel>
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2">
+              <img [src]="getImageSource(5)" class="tab-icon" alt="Monthly Report Icon"/>
+              <span class="font-bold white-space-nowrap m-0">Monthly Report</span>
+            </div>
+          </ng-template>
+          <app-monthly-report></app-monthly-report>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,91 @@
+
+<!-- <svg id="changeColor" fill="#DC7633" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" zoomAndPan="magnify" viewBox="0 0 375 374.9999" height="40" version="1.0"><defs></defs><g></g><g id="inner-icon" transform="translate(85, 75)"> <svg xmlns="http://www.w3.org/2000/svg" width="287" height="287" fill="currentColor" class="bi bi-filter-circle" viewBox="0 0 16 16" id="IconChangeColor"> <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" id="mainIconPathAttribute" stroke-width="0" stroke="#ff0000" fill="#ff0000"></path> <path d="M7 11.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z" id="mainIconPathAttribute" stroke="#ff0000" fill="#ff0000" ></path> </svg> </g></svg> -->
+<div *ngIf="!displaytable">
+    <div class="custom_form">
+        <form [formGroup]="form" (ngSubmit)="OnSubmit()" novalidate>
+            <ng-template pTemplate="header">
+
+            </ng-template>
+                <div class="formgroup-inline" >
+                    <div class="field">
+                        <label for="dropdown" class="block mb-2"  style="width:100px;font-size:13px"> Item </label>
+                        <p-dropdown (onChange)="OnSelectedChange($event)"  class="icon" id="dropdown" [options]="itemsname" optionValue="im_id" optionLabel="im_name" placeholder="Select Item"  [required]="true"  [style]="{'width':'160px'}" > </p-dropdown>
+
+                    </div>
+                    <div class="field">
+                        <label for="number" class="block mb-2"  style="width:100px;font-size:13px"> Filter</label>
+                        <p-dropdown  id="dropdown" optionLabel="name"  [options]="filterdays"
+                         optionValue="code" placeholder="Days filter"  [(ngModel)] ="selectedFilter" [ngModelOptions]="{standalone: true}" (onChange)="dropdownChange()"  [style]="{'width':'160px'}"></p-dropdown>
+                    </div>
+
+
+                        <div class="field" *ngIf="selectedFilter == 'Custom',">
+                            <label for="number" class="block mb-2"  style="font-size:13px" > From Date </label>
+                            <p-calendar  dateFormat="yy.mm.dd" [maxDate]="maxDate" [showIcon]="true"  formControlName="date1" ></p-calendar>
+                        </div>
+                        <div class="field" *ngIf="selectedFilter == 'Custom'">
+                            <label for="dropdown" class="block mb-2" style="font-size:13px" > To Date </label>
+                            <p-calendar dateFormat="yy.mm.dd" [maxDate]="maxDate" [showIcon]="true"  formControlName="date2"></p-calendar>
+                        </div>
+
+                <div class="field mt-1">
+                    <p-button label="Apply Filter" type="submit" class="block mt-3 pt-2"  icon="pi pi-search" styleClass="p-button-danger" [disabled]="!selectedFilter" [style]="{'height':'40px'}"><i class="pi pi-search"></i></p-button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div *ngIf="showloader"><img src="assets\loader1.gif" alt="" class="loader1"></div>
+<div *ngIf="displaytable">
+    <i class="pi pi-filter" pTooltip="Filter" tooltipPosition="top" (click)="openfilter()"></i>
+
+    <div class="mt-2">
+        <div class="searchtab ml-2" >
+                <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText  type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Global Search" [style]="{'width':'180px','height':'37px'}"/>
+            </span>
+
+            <div class="heading">
+                <h6 class="pt-2" style="text-align: center; font-weight: 600;" >Path Tracking</h6>
+            </div>
+
+            <div class="tablehead pb-2 pt-2 mr-2">
+            <p-button icon="pi pi-file-excel" label="Export" styleClass="p-button-raised p-button-success p-button-text"  pTooltip="XLS" tooltipPosition="bottom" [style]="{'width':'120px','height':'37px'}" (click)="exportExcel()"><i class="pi pi-file-excel"></i></p-button>
+            </div>
+
+        </div>
+            <p-table #dt
+                id = "dom"
+                [value]="pathTrackingTable.table_data"
+                [scrollable]="true"
+                scrollHeight="430px"
+            >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="rowIndex">S.No           <p-sortIcon field="rowIndex" ></p-sortIcon></th>
+                        <th pSortableColumn="entrytime">Entry time    <p-sortIcon field="entrytime" ></p-sortIcon></th>
+                        <th pSortableColumn="exittime">exit time      <p-sortIcon field="exittime" ></p-sortIcon></th>
+                        <th pSortableColumn="dwelltime">Dwell time    <p-sortIcon field="dwelltime" ></p-sortIcon></th>
+                        <th pSortableColumn="from">From location      <p-sortIcon field="from" ></p-sortIcon></th>
+                        <th pSortableColumn="to">To location          <p-sortIcon field="to" ></p-sortIcon></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-i let-rowIndex="rowIndex +1">
+                    <tr>
+                        <td>{{ rowIndex }}</td>
+                        <td>{{ i.entrytime }}</td>
+                        <td>{{ i.exittime }}</td>
+                        <td>{{ i.dwelltime }}</td>
+                        <td>{{ i.from }}</td>
+                        <td>{{ i.to }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+</div>
+
+
+

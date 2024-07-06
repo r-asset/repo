@@ -18,8 +18,21 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "@fortawesome/angular-fontawesome": "^0.15.0",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "apexcharts": "^3.49.2",
+    "font-awesome": "^4.7.0",
+    "font-awesome-icons": "^1.6.0",
+    "highcharts": "^11.4.5",
+    "highcharts-angular": "^4.0.0",
+    "ng-apexcharts": "^1.11.0",
+    "ngx-cookie-service": "^18.0.0",
+    "ngx-webcam": "^0.4.1",
+    "primeicons": "^7.0.0",
+    "primeng": "^17.18.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "xlsx-js-style": "^1.2.0",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
@@ -33,6 +46,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "tailwindcss": "^3.4.4",
     "typescript": "~5.4.2"
   }
 }

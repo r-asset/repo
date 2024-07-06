@@ -1,0 +1,98 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 100vh;
+  background-color: #f76c6c;
+  overflow-x: hidden;
+  transition: width 0.3s ease;
+  z-index: 2;
+}
+
+.sidebar:hover {
+  width: 200px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.logo {
+  padding-left: 3px;
+}
+
+.logo-text {
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  margin-left: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.sidebar:hover .logo-text {
+  opacity: 1;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.sidebar-item a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+}
+
+.sidebar img {
+  width: 30px;
+  height: 50px;
+  padding-top: 24px;
+}
+.sidebar .logo2{
+  width: 170px;
+  height: 60px;
+  padding-top: 24px;
+}
+
+.icon-text {
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 0;
+  font-size: 17px;
+  transition: opacity 0.3s ease;
+  margin-left: 0.8rem;
+  margin-top: 23px;
+  color: white;
+}
+
+.sidebar:hover .icon-text {
+  opacity: 1;
+}
+
+.sidebar:hover .logo{
+  opacity: 0;
+  display:none;
+}
+
+.logo2{
+  opacity: 0;
+}
+.sidebar:hover .logo2{
+  opacity: 1;
+
+}

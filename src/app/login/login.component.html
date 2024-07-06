@@ -1,0 +1,84 @@
+<body>
+
+
+  <div class="form-column">
+
+    <div class="mobheader" >
+      <h2 >R-Asset Tracking</h2>  <img src="../../assets/motherson_logo.png" alt="" width="50px" height="45px">
+
+
+    </div>
+
+    <div class="logo">
+      <img src="../../assets/mothersonlogo.jpeg" alt="" height="103px" width="107px">
+
+
+    </div>
+
+      <div class="form login">
+        <h3 style="font-family: auto ;">Welcome</h3> <!--edited-->
+        <div class="form-content">
+             <!-- <header>LOGIN</header> -->
+
+            <form [formGroup]="form" (ngSubmit)="login()">
+              <label class="label">Email</label>
+              <div class="field input-field">
+
+                <input class="input" type="email" formControlName="email" placeholder="Enter your Email" required>
+
+                <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)" class="error">
+                  {{ form.get('email')?.hasError('required') ? '*Email is required' : 'Email is invalid' }}
+                </div>
+              </div>
+              <label class="label2">Password</label>
+              <div class="field input-field">
+
+                <input type="{{ showPassword ? 'text' : 'password' }}" formControlName="password" placeholder="Enter your Password" required>
+
+                <div *ngIf="form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)" class="error">
+                  <div *ngIf="form.get('password')?.errors!required">
+                    *Password required
+                  </div>
+                </div>
+                <fa-icon class="eye" [icon]="showPassword ? eyeCls : eye" (click)="togglePasswordVisibility()"></fa-icon>
+              </div>
+
+              <div class="form-link">
+                  <a class="forgot-pass">Forgot password?</a>
+              </div>
+
+              <div class="btnfielf button-field">
+                <button type="submit" [disabled]="this.form.invalid">
+                  <div class="svg-wrapper-1">
+                    <div class="svg-wrapper">
+                      <fa-icon class="svg" [icon]="log"></fa-icon>
+                    </div>
+                  </div>
+                  <span>LOGIN</span>
+                </button>
+              </div>
+          </form>
+        </div>
+      </div>
+  </div>
+
+    <div class="image">
+
+      <div class="heading">
+        <h2 style="font-family: auto ;">R-ASSET TRACKING</h2>
+      </div>
+
+
+      <div class="gif">
+        <img src="../../assets/login-Image.gif" alt="" height="auto" width="auto">
+      </div>
+
+    </div>
+
+
+    <div class="mobfooter">
+      <p><b> Proud to be part of <span style="color: #da2020;">Samvardhana motherson </span></b><img src="../../assets/motherson_logo.png" width="25px" height="25px"></p>
+    </div>
+
+  <!-- <p-toast></p-toast> -->
+</body>
