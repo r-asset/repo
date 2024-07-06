@@ -29,9 +29,7 @@ startname: any = [];
 endname: any = [];
 categoriesname: any = [];
 
-starturl = 'assets/site.json'
-endurl = 'assets/zone.json'
-categoryurl = 'assets/category.json'
+
 
 constructor(private fb: FormBuilder,private service:ReportService,private http: HttpClient)
 {
@@ -41,13 +39,11 @@ ngOnInit(): void {
   this.form = this.fb.group({
     mpl_frmdte:  ['',Validators.required],
     mpl_todte:  ['',Validators.required],
-    mpl_siteid:['',Validators.required],
-    mpl_areaid:['',Validators.required],
     mpl_startlocation:['',Validators.required],
-    mpl_location:['',Validators.required],
+    mpl_endlocation:['',Validators.required],
     mpl_category:['',Validators.required],
   });
-  this.http.get(this.starturl).subscribe(res=>{
+  this.service.getData('').subscribe(res=>{
     this.startname=res
 
     let sitename: string[] =[]
@@ -58,7 +54,7 @@ ngOnInit(): void {
     this.startname = sitename
 });
 
-   this.http.get(this.endurl).subscribe(res=>{
+   this.service.getData('').subscribe(res=>{
     this.endname=res
 
     let areaname: string[] =[]
@@ -69,7 +65,7 @@ ngOnInit(): void {
     this.endname = areaname
    });
 
-   this.http.get(this.categoryurl).subscribe(res=>{
+   this.service.getData('').subscribe(res=>{
     this.categoriesname=res
 
     let categoryname: string[] =[]
@@ -106,7 +102,7 @@ OnSubmit(){
   this.service.postData('virtualreport/assetavailability',this.form.value).subscribe(res =>{
     this.mplTable = res
    })
-   
+
    this.showloader=false
 }
 exportExcel(){
