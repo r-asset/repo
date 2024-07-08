@@ -10,6 +10,11 @@ body {
   background-color: #f9f9f9;
 }
 
+:host ::ng-deep p-table {
+  tr:nth-child(odd) {
+      background-color: rgb(251, 230, 230);
+  }
+}
 ::ng-deep .p-tabview-nav-container {
   padding-bottom: 10px;
 }

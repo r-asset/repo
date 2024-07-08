@@ -31,6 +31,7 @@ pathTrackingTable:any;
 
 displaytable: boolean=false;
 showloader: boolean=false;
+pathTrackingGif: boolean=false;
 
 constructor(private fb: FormBuilder,private http: HttpClient,private service: ReportService,
   private itemservice: ItemManagementService)
@@ -73,6 +74,7 @@ OnSelectedChange(value:any){
 openfilter(){
   this.showloader = false
   this.displaytable = !this.displaytable
+  this.pathTrackingGif = !this.pathTrackingGif
 }
 
 applyFilterGlobal($event:any, stringValue:any){
@@ -140,7 +142,7 @@ OnSubmit(){
 
   this.showloader = true;
   this.displaytable = !this.displaytable
-
+  this.pathTrackingGif = !this.pathTrackingGif
   const selectedFilterValue = this.selectedFilter;
 
   switch(selectedFilterValue){

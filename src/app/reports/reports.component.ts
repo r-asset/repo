@@ -9,8 +9,8 @@ export class ReportsComponent {
   activeIndex: number = 0;
 
     // Define the paths for default and GIF backgrounds
-    defaultBackground: string = '../../assets/background.png'; // Replace with your default image path
-    pathTrackingGif: string = '../../assets/path tracking.gif'; // Replace with your GIF path
+   public defaultBackground: string = '../../assets/background.png'; // Replace with your default image path
+   public pathTrackingGif: string = '../../assets/path tracking.gif'; // Replace with your GIF path
 
   tabs: { iconRed: string, iconWhite: string, name : string}[] = [
     {name: 'PathTrackingComponent', iconRed: '../../assets/reports/path.png', iconWhite: '../../assets/reports/onclick/path.png' },
@@ -48,7 +48,7 @@ export class ReportsComponent {
         defaultImageElement.style.position = 'fixed';
         defaultImageElement.style.zIndex = '1';
         pathTrackingElement.style.display = 'none';
-        defaultImageElement.style.opacity = '.5';
+        defaultImageElement.style.opacity = '.2';
       }
     }
   }

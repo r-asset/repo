@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ButtonModule } from 'primeng/button';
 
+import {MatTabsModule} from '@angular/material/tabs';
 import { CardModule } from 'primeng/card';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
@@ -178,6 +179,7 @@ import { AssetStatusComponent } from './assets-view/Addons/asset-status/asset-st
         SidebarComponent,
         TabMenuModule,
         TreeModule,
+        MatTabsModule
     ]
 })
 export class AppModule { }

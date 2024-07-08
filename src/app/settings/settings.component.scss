@@ -20,7 +20,7 @@
 }
 
 ::ng-deep ul.p-tabview-nav{
-  width: 1250px;
+  width: 1210px;
 }
 
 ::ng-deep .p-tabview p.p-tabview-nav {
@@ -35,7 +35,7 @@
 }
 
 ::ng-deep .p-tabview-nav {
-  background-color: #f5f5f5;
+  background-color: #ffff;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -52,10 +52,12 @@
 
 ::ng-deep .p-tabview-nav li a {
   color: #555 !important;
+  font-size: 20px;
+
   border: 1px solid transparent !important;
   border-radius: 4px !important;
-  margin-right: 5px !important;
-  padding: 10px 20px !important;
+  margin-right: 0px !important;
+  padding: 10px 50px !important;
   transition: all 0.3s ease !important;
 }
 
@@ -81,4 +83,12 @@
 
 ::ng-deep .p-tabview .p-tabview-panels .p-tabview-panel {
   padding: 20px !important;
+}
+
+.sub-header{
+  color: #72AF8E;
+}
+
+::ng-deep .p-tabview .p-tabview-nav{
+  border: none !important;
 }
