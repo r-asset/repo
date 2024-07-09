@@ -26,3 +26,12 @@
   min-width: 25%;
   max-width: 80%;
 }
+
+.overall{
+  margin-left: 5%;
+  padding: 2%;
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  justify-content: stretch;
+}

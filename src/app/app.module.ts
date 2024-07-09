@@ -74,6 +74,11 @@ import { MessageService,ConfirmationService } from 'primeng/api';
 //PrimeNg imports
 import { TabMenuModule } from 'primeng/tabmenu';
 import { TreeModule } from 'primeng/tree';
+import { FieldsetModule } from 'primeng/fieldset';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { ChipsModule } from 'primeng/chips';
 
 import { CommonModule } from '@angular/common';
 import { PasswordModule } from "primeng/password";
@@ -91,6 +96,7 @@ import { AreaComponent } from './assets-view/Addons/area/area.component';
 import { ConditionComponent } from './assets-view/Addons/condition/condition.component';
 import { ChartsComponent } from './Components/charts/charts.component';
 import { AssetStatusComponent } from './assets-view/Addons/asset-status/asset-status.component';
+import { OverallComponent } from './assets-view/Addons/overall/overall.component';
 
 
 
@@ -128,6 +134,7 @@ import { AssetStatusComponent } from './assets-view/Addons/asset-status/asset-st
         ConditionComponent,
         ChartsComponent,
         AssetStatusComponent,
+        OverallComponent,
     ],
     providers: [DynamicDialogRef, MessageService, ConfirmationService],
     bootstrap: [AppComponent],
@@ -179,7 +186,12 @@ import { AssetStatusComponent } from './assets-view/Addons/asset-status/asset-st
         SidebarComponent,
         TabMenuModule,
         TreeModule,
-        MatTabsModule
+        MatTabsModule,
+        FieldsetModule,
+        OverlayPanelModule,
+        InputGroupModule,
+        InputGroupAddonModule,
+        ChipsModule
     ]
 })
 export class AppModule { }

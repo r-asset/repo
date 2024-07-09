@@ -105,3 +105,51 @@
         height: 12px !important;
     }
 }
+
+.img{
+  width: 50px;
+  left: 2px;
+  position: relative;
+}
+
+.draggable {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #007bff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  user-select: none;
+  z-index: 1000;
+}
+
+.draggable img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.draggable.dragging {
+  cursor: grabbing;
+}
+
+
+// .bot{
+//   width: 60px;
+//   height: 60px;
+//   cursor: pointer;
+//   position: relative;
+//   bottom: 300px;
+//   left: 94%;
+//   border-radius: 30px;
+// }
+// img{
+//   left: 80%;
+//   top: 430px;
+//   position: relative;
+// }

@@ -10,7 +10,7 @@ export class ConditionComponent {
 
   // Common configurations
 chartColors = ['#FF5733', '#000000'];
-chartHeight = 400;
-chartWidth = '152%';
+chartHeight = 200;
+chartWidth = '142%';
 chartLabels = ['Working Active', 'Maintenance'];
 }

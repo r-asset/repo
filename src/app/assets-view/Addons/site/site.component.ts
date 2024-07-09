@@ -9,13 +9,13 @@ export class SiteComponent {
   lineChartData = [
     {
       name: 'Series 1',
-      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+      data: [10, 41, 35, 51, 49, 62, 69, 191, 148]
     }
   ];
 
   lineChartColors = ['#FF5733'];
   lineChartType = 'area';
-  lineChartHeight = 250; // Height in pixels
+  lineChartHeight = 200; // Height in pixels
   lineChartWidth = 350; // Width in percentage
   lineChartXAxis = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 }

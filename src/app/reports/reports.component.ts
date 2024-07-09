@@ -10,7 +10,7 @@ export class ReportsComponent {
 
     // Define the paths for default and GIF backgrounds
    public defaultBackground: string = '../../assets/background.png'; // Replace with your default image path
-   public pathTrackingGif: string = '../../assets/path tracking.gif'; // Replace with your GIF path
+   public pathTrackingGif: string = '../../assets/pathtracking.gif'; // Replace with your GIF path
 
   tabs: { iconRed: string, iconWhite: string, name : string}[] = [
     {name: 'PathTrackingComponent', iconRed: '../../assets/reports/path.png', iconWhite: '../../assets/reports/onclick/path.png' },
@@ -36,11 +36,11 @@ export class ReportsComponent {
       if (this.tabs[this.activeIndex].name === 'PathTrackingComponent') {
         defaultImageElement.style.display = 'none';
         pathTrackingElement.style.display = 'block';
-        pathTrackingElement.style.width = '90%';
+        pathTrackingElement.style.width = '60%';
         pathTrackingElement.style.height = 'auto';
         pathTrackingElement.style.position = 'absolute';
-        pathTrackingElement.style.left = '0';
-        pathTrackingElement.style.top = '25%';
+        pathTrackingElement.style.left = '20%';
+        pathTrackingElement.style.top = '45%';
       } else {
         defaultImageElement.style.display = 'block';
         defaultImageElement.style.left = '30%';
@@ -56,7 +56,6 @@ export class ReportsComponent {
   getImageSource(index: number): string {
     return this.activeIndex === index ? this.tabs[index].iconWhite : this.tabs[index].iconRed;
   }
-
 
 }
 

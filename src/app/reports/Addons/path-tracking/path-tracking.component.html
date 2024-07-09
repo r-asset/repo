@@ -9,7 +9,7 @@
             </ng-template>
                 <div class="formgroup-inline" >
                     <div class="field">
-                        <label for="dropdown" class="card flex justify-content-center"> Item </label>
+                        <label for="dropdown" class="block mb-2"> Item </label>
                         <p-dropdown (onChange)="OnSelectedChange($event)" [editable]="true"z  class="icon" id="dropdown" [options]="itemsname" optionValue="im_id" optionLabel="im_name" placeholder="Select Item"  [required]="true"  [style]="{'width':'160px'}" > </p-dropdown>
 
                     </div>
@@ -41,7 +41,7 @@
 
 <div *ngIf="showloader"><img src="assets\loader1.gif" alt="" class="loader1"></div>
 <div *ngIf="displaytable">
-    <i class="pi pi-filter" pTooltip="Filter" tooltipPosition="top" (click)="openfilter()"></i>
+  <img src="../../../../assets/filter.png" alt="filter" class="img" (click)="openfilter()">
 
     <div class="mt-2">
         <div class="searchtab ml-2" >
@@ -70,7 +70,6 @@
                         <th pSortableColumn="rowIndex">S.No           <p-sortIcon field="rowIndex" ></p-sortIcon></th>
                         <th pSortableColumn="entrytime">Entry time    <p-sortIcon field="entrytime" ></p-sortIcon></th>
                         <th pSortableColumn="exittime">exit time      <p-sortIcon field="exittime" ></p-sortIcon></th>
-                        <!-- <th pSortableColumn="dwelltime">Dwell time    <p-sortIcon field="dwelltime" ></p-sortIcon></th> -->
                         <th pSortableColumn="from">From location      <p-sortIcon field="from" ></p-sortIcon></th>
                         <th pSortableColumn="to">To location          <p-sortIcon field="to" ></p-sortIcon></th>
                     </tr>
@@ -80,12 +79,34 @@
                         <td>{{ rowIndex }}</td>
                         <td>{{ i.entrytime }}</td>
                         <td>{{ i.exittime }}</td>
-                        <!-- <td>{{ i.dwelltime }}</td> -->
                         <td>{{ i.from }}</td>
                         <td>{{ i.to }}</td>
                     </tr>
                 </ng-template>
             </p-table>
+            <div class="draggable" (mousedown)="onDragStart($event)" (touchstart)="onDragStart($event)">
+              <img src="../../assets/icons/bot.jpg" alt="bot" class="bot"  (click)="op.toggle($event)" >
+              <p-overlayPanel #op>
+                <div class="flex flex-column gap-3 w-20rem">
+                    <div>
+                        <span class="font-medium text-900 block mb-2">Team Members</span>
+                        <ul class="list-none p-0 m-0 flex flex-column gap-3">
+                            <li *ngFor="let member of members" class="flex align-items-center gap-2">
+                                <img [src]="'https://primefaces.org/cdn/primeng/images/demo/avatar/' + member.image" style="width: 32px" />
+                                <div>
+                                    <span class="font-medium">{{ member.name }}</span>
+                                    <div class="text-sm text-color-secondary">{{ member.email }}</div>
+                                </div>
+                                <div class="flex align-items-center gap-2 text-color-secondary ml-auto text-sm">
+                                    <span>{{ member.role }}</span>
+                                    <i class="pi pi-angle-down"></i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+              </p-overlayPanel>
+            </div>
         </div>
 </div>
 

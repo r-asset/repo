@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, HostListener } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ReportService } from '../../service/report.service';
 import { ItemManagementService } from '../../../item-management/Add-ons/service/item-management.service';
@@ -335,4 +335,60 @@ exportExcel(){
   XLSX.utils.book_append_sheet(wb,ws);
   XLSX.writeFile(wb,'Path-Tracking_Report.xlsx')
 }
+members = [
+  { name: 'Amy Elsner', image: 'amyelsner.png', email: 'amy@email.com', role: 'Owner' },
+  { name: 'Bernardo Dominic', image: 'bernardodominic.png', email: 'bernardo@email.com', role: 'Editor' },
+  { name: 'Ioni Bowcher', image: 'ionibowcher.png', email: 'ioni@email.com', role: 'Viewer' }
+];
+isDragging = false;
+  offset = { x: 0, y: 0 };
+
+  onDragStart(event: MouseEvent | TouchEvent): void {
+    this.isDragging = true;
+    const clientX = this.getClientX(event);
+    const clientY = this.getClientY(event);
+
+    const draggableElement = (event.target as HTMLElement).closest('.draggable') as HTMLElement;
+    if (draggableElement) {
+      const rect = draggableElement.getBoundingClientRect();
+      this.offset = {
+        x: clientX - rect.left,
+        y: clientY - rect.top,
+      };
+    }
+
+    document.addEventListener('mousemove', this.onDragMove.bind(this));
+    document.addEventListener('touchmove', this.onDragMove.bind(this));
+    document.addEventListener('mouseup', this.onDragEnd.bind(this));
+    document.addEventListener('touchend', this.onDragEnd.bind(this));
+  }
+
+  onDragMove(event: MouseEvent | TouchEvent): void {
+    if (!this.isDragging) return;
+
+    const clientX = this.getClientX(event);
+    const clientY = this.getClientY(event);
+
+    const draggableElement = document.querySelector('.draggable') as HTMLElement;
+    if (draggableElement) {
+      draggableElement.style.left = `${clientX - this.offset.x}px`;
+      draggableElement.style.top = `${clientY - this.offset.y}px`;
+    }
+  }
+
+  onDragEnd(): void {
+    this.isDragging = false;
+    document.removeEventListener('mousemove', this.onDragMove.bind(this));
+    document.removeEventListener('touchmove', this.onDragMove.bind(this));
+    document.removeEventListener('mouseup', this.onDragEnd.bind(this));
+    document.removeEventListener('touchend', this.onDragEnd.bind(this));
+  }
+
+  private getClientX(event: MouseEvent | TouchEvent): number {
+    return event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
+  }
+
+  private getClientY(event: MouseEvent | TouchEvent): number {
+    return event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
+  }
 }

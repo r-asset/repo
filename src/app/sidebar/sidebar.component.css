@@ -7,7 +7,7 @@
   background-color: #f76c6c;
   overflow-x: hidden;
   transition: width 0.3s ease;
-  z-index: 2;
+  z-index: 3;
 }
 
 .sidebar:hover {

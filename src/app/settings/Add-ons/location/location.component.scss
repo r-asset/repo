@@ -1,0 +1,17 @@
+.location{
+  margin-bottom: 60px;
+}
+
+.type{
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+::ng-deep .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a {
+  padding: 10px;
+}
+
+::ng-deep .p-fieldset {
+  margin: 10px;
+  border: 0px;
+}

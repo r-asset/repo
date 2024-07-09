@@ -16,7 +16,7 @@ export class ZoneComponent {
 
   lineChartColors = ['#FF5733'];
   lineChartType = 'area';
-  lineChartHeight = 250; // Height in pixels
+  lineChartHeight = 200; // Height in pixels
   lineChartWidth = 350; // Width in percentage
   lineChartXAxis = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 }

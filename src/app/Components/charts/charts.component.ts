@@ -37,6 +37,10 @@ export class ChartsComponent implements OnInit {
         }
       } : undefined,
       plotOptions: {
+        bar:{
+          distributed: true,
+          borderRadius: 10,
+        },
         pie: {
           donut: {
             size: '50%' // Specific to donut charts
