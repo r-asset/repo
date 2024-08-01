@@ -50,7 +50,7 @@ submitted = '';
       pmmaxbeacons: ['', Validators.required]
     }) ;
   }
-  codeEndpoint = 'pmtcode'
+  codeEndpoint = 'pmcode'
 
   SavaData(Data:any){
     this.plantManagement.push(Data)
