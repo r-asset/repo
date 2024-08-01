@@ -11,8 +11,11 @@ import { MessageService } from 'primeng/api';
 })
 export class CategoryComponent {
 category: any;
+selectedItem: any = [];
+ModalType = 'ADD'
 
 // url="assets/category.json"
+public icon: string = '../../../../assets/icons/Table/Available.png';
 
 Addform: any;
 Editform: any;
@@ -20,11 +23,13 @@ Editform: any;
 display: boolean = false;
 Editpopup: boolean = false;
 
+
+
 endpoint ='category/data'
 constructor(private service: SettingsService,private http: HttpClient,private fb:FormBuilder, private messageService: MessageService){}
 
 ngOnInit(){
-  // this.endpoint = "category/data"
+
    this.service.getData(this.endpoint).subscribe(res =>{
      this.category = res
      console.log(res)
@@ -32,31 +37,33 @@ ngOnInit(){
    this.Addform=this.fb.group({
     cm_code:["",Validators.required],
     cm_name:["",Validators.required],
-    
+    cm_unitname:["",Validators.required],
     cm_active:[false,Validators.required],
-    // cm_createdby:["",Validators.required],
     cm_createdon:["",Validators.required],
-    // cm_special:[false,Validators.required],
     cm_notes:["",Validators.required],
     cm_maintenance_parameters: [""],
-    // cm_modifiedon:[""],
-    // cm_modifiedby:[""]
 
   });
   this.Editform=this.fb.group({
     cm_code:["",Validators.required],
     cm_name:["",Validators.required],
-    
+    cm_unitname:["",Validators.required],
     cm_active:[false,Validators.required],
-    // cm_createdby:["",Validators.required],
     cm_createdon:["",Validators.required],
-    // cm_special:[false,Validators.required],
     cm_notes:["",Validators.required],
     cm_maintenance_parameters: [""],
-    // cm_modifiedon:[""],
-    // cm_modifiedby:[""]
-
   })
+}
+
+ngOnChanges():void{
+  if(this.selectedItem){
+    this.Addform.patchValue(this.selectedItem)
+    this.ModalType = 'UPDATE'
+  }
+  else{
+    this.Addform.reset();
+    this.ModalType = 'ADD'
+  }
 }
 codeEndpoint ='cccode'
 
@@ -83,7 +90,7 @@ showDialog(){
   this.service.postData(this.endpoint,this.Addform.value).subscribe(
     res =>{
       this.SavaData(this.Addform.value)
-      this.display = false;
+      this.display = true;
       this.Addform.reset()
       this.messageService.add({ severity: 'success', summary: 'Added', detail:'Sucessfully', life: 4000 });
     },
@@ -110,12 +117,14 @@ showDialog(){
   this.Editpopup= true;
   this.selectedData = i;
   this.Editform.patchValue(this.selectedData)
+
  }
 deleteRow(i:any){
-  this.service.deleteData(this.endpoint, i.udusercode).subscribe(
+  this.service.deleteData(this.endpoint, i.cm_code).subscribe(
     () =>{
       this.Editpopup = false
       this.category.splice(i,1)
+      console.log(i.cm_code)
       this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'Successfully', life: 4000 });
     },
     error => {

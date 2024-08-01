@@ -37,16 +37,15 @@ export class ReportsComponent {
         defaultImageElement.style.display = 'none';
         pathTrackingElement.style.display = 'block';
         pathTrackingElement.style.width = '60%';
-        pathTrackingElement.style.height = 'auto';
-        pathTrackingElement.style.position = 'absolute';
-        pathTrackingElement.style.left = '20%';
-        pathTrackingElement.style.top = '45%';
+        pathTrackingElement.style.position = 'absoute';
+        pathTrackingElement.style.overflow = 'hidden';
+        pathTrackingElement.style.left = '15%';
+        pathTrackingElement.style.top = '220%';
       } else {
         defaultImageElement.style.display = 'block';
         defaultImageElement.style.left = '30%';
         defaultImageElement.style.overflow = 'hidden';
         defaultImageElement.style.position = 'fixed';
-        defaultImageElement.style.zIndex = '1';
         pathTrackingElement.style.display = 'none';
         defaultImageElement.style.opacity = '.2';
       }

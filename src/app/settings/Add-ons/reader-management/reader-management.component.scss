@@ -1,13 +1,11 @@
 @import "primeicons/primeicons.css";
 
 th{
-    font-size:small;   
-    color: red !important;
-    text-align: center !important;
-    text-transform: uppercase;
+  font-size: smaller;
 }
+
 td{
-    // font-size:small;
+    font-size:smaller;
     text-align: center !important;
     text-transform: uppercase;
     width: 60px;
@@ -15,6 +13,7 @@ td{
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
 #savebutton{
     float:right;
     height:35px;

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output  } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -14,10 +14,10 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
   providers: [DialogService,ConfirmationService]
 })
 export class LocationtypeComponent {
-  
+
   pipe = new DatePipe('en-US');
   date=new Date();
-
+  @Output() locationNameChange = new EventEmitter<string>();
   locationtype: any;
 
   // LocationTypeurl = 'assets/locationtype.json';
@@ -31,11 +31,11 @@ export class LocationtypeComponent {
 
   constructor(private service: SettingsService,private http: HttpClient,private messageService: MessageService, private confirmationService: ConfirmationService,private fb:FormBuilder,public dialogService: DialogService, public ref: DynamicDialogRef)
   {
-    
+
   }
 
   ngOnInit(){
-    this.service.getData(this.endpoint).subscribe(res =>{  
+    this.service.getData(this.endpoint).subscribe(res =>{
       this.locationtype = res
       console.log(res)
       });
@@ -52,51 +52,61 @@ export class LocationtypeComponent {
         lc_createdon:["",Validators.required]
       })
   }
+  onLocationNameChange() {
+    this.locationNameChange.emit(this.form.value.lc_name);
+  }
   codeEndpoint = "locationcode"
 
   SavaData(Data:any){
     this.locationtype.push(Data)
   }
-  
+
   selectedData: any = null
   Update(Update:any){
     const i = this.locationtype.findIndex((user:any) => user.lc_code === this.selectedData.lc_code);
     this.locationtype[i] = Update;
   }
 
+  displays(){
+    this.display = false;
+  }
   showDialog(){
     this.display = true;
   this.service.getData(this.codeEndpoint).subscribe(
     res =>{
     let code = res.lc_code
     this.form.get('lc_code')?.setValue(code)
+    console.log(code);
   })
   }
   AddLocationForm(){
-    this.service.postData(this.endpoint,this.form.value).subscribe(
-      res =>{
+    this.onLocationNameChange();
+    this.service.postData(this.endpoint,this.form.value).subscribe({
+      next: res =>{
         this.SavaData(this.form.value)
         this.display = false;
         this.form.reset()
         this.messageService.add({ severity: 'success', summary: 'Added', detail:'Sucessfully', life: 4000 });
       },
-      error => {
+      error: error => {
         this.messageService.add({ severity: 'error', summary: 'Not Added', detail: 'Failed', life: 4000 });
         console.log("Error")
       }
+    }
       )
   }
 
   EditLocationForm(){
-    this.service.putData(this.endpoint, this.editform.value).subscribe(
-      update =>{
+    this.service.putData(this.endpoint, this.editform.value).subscribe({
+      next: update =>{
         this.Update(this.editform.value)
         this.messageService.add({ severity: 'info', summary: 'Updated', detail:'Sucessfully', life: 4000 });
       },
-      error => {
+      error: error => {
         this.messageService.add({ severity: 'error', summary: 'Not Updated', detail: 'Failed', life: 4000 });
         console.log("Error")
       }
+    }
     )
   }
 
@@ -108,16 +118,17 @@ edit(i:any) {
 }
 
 delete(i: any) {
-  this.service.deleteData(this.endpoint, i.lc_code).subscribe(
-    () =>{
+  this.service.deleteData(this.endpoint, i.lc_code).subscribe({
+    next: () =>{
       this.EditPopup = false
       this.locationtype.splice(i,1)
       this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'Successfully', life: 4000 });
     },
-    error => {
+    error: error => {
       this.messageService.add({ severity: 'error', summary: 'Not Deleted', detail: 'Failed', life: 4000 });
       console.log("Error");
     }
+  }
   )
 
 }

@@ -39,13 +39,16 @@ constructor(private fb: FormBuilder,private service: ReportService,private http:
 }
  ngOnInit(): void {
   this.dwellSearch = [
-    // {name: 'Minutes', code: 'Minutes'},
     {name: 'HOURS',   code: 'HOURS'},
-    // {name: 'DAYS',    code: 'DAYS'},
-    // {name: 'MONTHS',  code: 'MONTHS'},
   ];
   this.dwellValue =[
-    {name: 'MORE THAN ONE',code: 'MORE THAN ONE'}
+    {name: 'MORE THAN ONE',code: 'MORE THAN ONE'},
+    {name: 'EQUALS',code: 'EQUALS'},
+    {name: 'NOT EQUALS',code: 'NOT EQUALS'},
+    {name: 'LESS THAN ',code: 'LESS THAN'},
+    {name: 'LESS THAN OR EQUALS',code: 'LESS THAN OR EQUALS'},
+    {name: 'MORE THAN ',code: 'MORE THAN'},
+    {name: 'MORE THAN OR EQUALS',code: 'MORE THAN OR EQUALS'},
   ];
   this.service.getData("businesslocations/site").subscribe(res => {
     this.sitesname = res.map((site: any) => ({ label: site.sc_name, value: site.sc_id }));
@@ -118,7 +121,7 @@ OnSubmit(){
   this.showloader=false
 }
 exportExcel(){
-  const table = document.getElementById('dom');
+  const table = document.getElementById('dwell');
 
   if (!table) {
     console.error("The table element with ID 'dom' does not exist.");

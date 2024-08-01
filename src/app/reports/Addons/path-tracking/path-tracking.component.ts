@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, HostListener } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ReportService } from '../../service/report.service';
 import { ItemManagementService } from '../../../item-management/Add-ons/service/item-management.service';
@@ -21,9 +21,10 @@ pipe = new DatePipe('en-US');
 timefrom: any;
 timeto: any;
 maxDate!: Date ;
-
+url = 'assets/item-data.json';
 itemsname: any = [];
 filterdays: any;
+AssetDetails: any
 
   selectedFilter=''
   selectedItem: any;
@@ -31,7 +32,60 @@ pathTrackingTable:any;
 
 displaytable: boolean=false;
 showloader: boolean=false;
-pathTrackingGif: boolean=false;
+
+
+isDragging = false;
+  offset = { x: 0, y: 0 };
+
+  onDragStart(event: MouseEvent | TouchEvent): void {
+    this.isDragging = true;
+    const clientX = this.getClientX(event);
+    const clientY = this.getClientY(event);
+
+    const draggableElement = (event.target as HTMLElement).closest('.draggable') as HTMLElement;
+    if (draggableElement) {
+      const rect = draggableElement.getBoundingClientRect();
+      this.offset = {
+        x: clientX - rect.left,
+        y: clientY - rect.top,
+      };
+    }
+
+    document.addEventListener('mousemove', this.onDragMove.bind(this));
+    document.addEventListener('touchmove', this.onDragMove.bind(this));
+    document.addEventListener('mouseup', this.onDragEnd.bind(this));
+    document.addEventListener('touchend', this.onDragEnd.bind(this));
+  }
+
+  onDragMove(event: MouseEvent | TouchEvent): void {
+    if (!this.isDragging) return;
+
+    const clientX = this.getClientX(event);
+    const clientY = this.getClientY(event);
+
+    const draggableElement = document.querySelector('.draggable') as HTMLElement;
+    if (draggableElement) {
+      draggableElement.style.left = `${clientX - this.offset.x}px`;
+      draggableElement.style.top = `${clientY - this.offset.y}px`;
+    }
+  }
+
+  onDragEnd(): void {
+    this.isDragging = false;
+    document.removeEventListener('mousemove', this.onDragMove.bind(this));
+    document.removeEventListener('touchmove', this.onDragMove.bind(this));
+    document.removeEventListener('mouseup', this.onDragEnd.bind(this));
+    document.removeEventListener('touchend', this.onDragEnd.bind(this));
+  }
+
+  private getClientX(event: MouseEvent | TouchEvent): number {
+    return event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
+  }
+
+  private getClientY(event: MouseEvent | TouchEvent): number {
+    return event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
+  }
+
 
 constructor(private fb: FormBuilder,private http: HttpClient,private service: ReportService,
   private itemservice: ItemManagementService)
@@ -43,7 +97,7 @@ constructor(private fb: FormBuilder,private http: HttpClient,private service: Re
 
   // let name = itemname
   // console.log(typeof(name))
-  // console.log(name)
+  console.log("ITEM:",this.itemsname)
 
  });
 
@@ -56,6 +110,7 @@ constructor(private fb: FormBuilder,private http: HttpClient,private service: Re
      { name: '15 Days', code: '15 Days' },
       { name: '30 Days', code: '30 Days' },
  ];
+
  this.form = this.fb.group({
   date1 : new FormControl(),
   date2: new FormControl(),
@@ -74,7 +129,6 @@ OnSelectedChange(value:any){
 openfilter(){
   this.showloader = false
   this.displaytable = !this.displaytable
-  this.pathTrackingGif = !this.pathTrackingGif
 }
 
 applyFilterGlobal($event:any, stringValue:any){
@@ -142,7 +196,7 @@ OnSubmit(){
 
   this.showloader = true;
   this.displaytable = !this.displaytable
-  this.pathTrackingGif = !this.pathTrackingGif
+
   const selectedFilterValue = this.selectedFilter;
 
   switch(selectedFilterValue){
@@ -158,6 +212,7 @@ OnSubmit(){
       }
       this.service.postData('taglocation/pathtracking',datass).subscribe(res =>{
         this.pathTrackingTable = res
+        this.AssetDetails = res.Asset_data
        })
        console.log(datass)
     break;
@@ -171,6 +226,7 @@ OnSubmit(){
       console.log(this.selectedItem)
       this.service.postData('taglocation/pathtracking',datas).subscribe(res =>{
         this.pathTrackingTable = res
+        this.AssetDetails = res.Asset_data
        })
 
     break;
@@ -183,6 +239,7 @@ OnSubmit(){
       }
       this.service.postData('taglocation/pathtracking',datas1).subscribe(res =>{
         this.pathTrackingTable = res
+        this.AssetDetails = res.Asset_data
        })
       console.log(datas1)
     break;
@@ -195,6 +252,7 @@ OnSubmit(){
       }
       this.service.postData('taglocation/pathtracking',datas2).subscribe(res =>{
         this.pathTrackingTable = res
+        this.AssetDetails = res.Asset_data
        })
       console.log(datas2)
     break;
@@ -207,6 +265,7 @@ OnSubmit(){
       }
       this.service.postData('taglocation/pathtracking',datas3).subscribe(res =>{
         this.pathTrackingTable = res
+        this.AssetDetails = res.Asset_data
        })
       console.log(datas3)
     break;
@@ -335,60 +394,4 @@ exportExcel(){
   XLSX.utils.book_append_sheet(wb,ws);
   XLSX.writeFile(wb,'Path-Tracking_Report.xlsx')
 }
-members = [
-  { name: 'Amy Elsner', image: 'amyelsner.png', email: 'amy@email.com', role: 'Owner' },
-  { name: 'Bernardo Dominic', image: 'bernardodominic.png', email: 'bernardo@email.com', role: 'Editor' },
-  { name: 'Ioni Bowcher', image: 'ionibowcher.png', email: 'ioni@email.com', role: 'Viewer' }
-];
-isDragging = false;
-  offset = { x: 0, y: 0 };
-
-  onDragStart(event: MouseEvent | TouchEvent): void {
-    this.isDragging = true;
-    const clientX = this.getClientX(event);
-    const clientY = this.getClientY(event);
-
-    const draggableElement = (event.target as HTMLElement).closest('.draggable') as HTMLElement;
-    if (draggableElement) {
-      const rect = draggableElement.getBoundingClientRect();
-      this.offset = {
-        x: clientX - rect.left,
-        y: clientY - rect.top,
-      };
-    }
-
-    document.addEventListener('mousemove', this.onDragMove.bind(this));
-    document.addEventListener('touchmove', this.onDragMove.bind(this));
-    document.addEventListener('mouseup', this.onDragEnd.bind(this));
-    document.addEventListener('touchend', this.onDragEnd.bind(this));
-  }
-
-  onDragMove(event: MouseEvent | TouchEvent): void {
-    if (!this.isDragging) return;
-
-    const clientX = this.getClientX(event);
-    const clientY = this.getClientY(event);
-
-    const draggableElement = document.querySelector('.draggable') as HTMLElement;
-    if (draggableElement) {
-      draggableElement.style.left = `${clientX - this.offset.x}px`;
-      draggableElement.style.top = `${clientY - this.offset.y}px`;
-    }
-  }
-
-  onDragEnd(): void {
-    this.isDragging = false;
-    document.removeEventListener('mousemove', this.onDragMove.bind(this));
-    document.removeEventListener('touchmove', this.onDragMove.bind(this));
-    document.removeEventListener('mouseup', this.onDragEnd.bind(this));
-    document.removeEventListener('touchend', this.onDragEnd.bind(this));
-  }
-
-  private getClientX(event: MouseEvent | TouchEvent): number {
-    return event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
-  }
-
-  private getClientY(event: MouseEvent | TouchEvent): number {
-    return event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
-  }
 }

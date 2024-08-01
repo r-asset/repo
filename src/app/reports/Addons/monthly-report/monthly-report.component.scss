@@ -2,39 +2,35 @@
 
 .searchtab{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+    bottom: 44px;
+    position: relative;
+    height: 71px;
+    left: 4%;
+}
+p-table#monthly.p-element{
+  position: relative;
+  left: 10px;
+  bottom: 33px;
 }
 .tablehead{
     display: flex;
     justify-content:center;
     align-items: center;
 }
-.custom_form {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  padding: 1rem;
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1), 2px 1px 2px 2px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  width: 549px;
-  height: 100%;
-  position: relative; /* Ensure it is positioned relative to the page flow */
-  z-index: 1; /* Ensure the form appears above the background image */
-}
 
-img{
-  width: 50px;
-  left: 2px;
+.img{
+  width: 40px;
+  left: 18px; //18px
   position: relative;
+  top: 19px; //34px
+  margin-right: 10px;
+  cursor:pointer
 }
 
 .heading{
     margin-right: 6rem;
-
 }
 
 ::ng-deep{
@@ -54,7 +50,18 @@ img{
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: stretch;
 }
+
+/* Optional: Adjust alignment and spacing */
+.vertical-header {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: left;
+  white-space: nowrap;
+  padding: 10px;
+  height: 100px;
+}
+
 

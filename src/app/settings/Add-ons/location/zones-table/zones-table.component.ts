@@ -23,10 +23,10 @@ export class ZonesTableComponent {
   endpoint = "businesslocations/zone"
 
   sites: any;
-  
+
   constructor(private service: SettingsService,private http: HttpClient,private fb:FormBuilder, private messageService: MessageService){}
 
-  
+
   ngOnInit(){
 
     this.Addform=this.fb.group({
@@ -51,18 +51,18 @@ export class ZonesTableComponent {
       zn_modifiedon:["",Validators.required],
 
     })
- 
-   this.service.getData(this.endpoint).subscribe(res =>{  
+
+   this.service.getData(this.endpoint).subscribe(res =>{
      this.zones = res
      console.log(res)
     });
     let sitename:string[]=[]
-    this.service.getData("businesslocations/site").subscribe(res =>{  
+    this.service.getData("businesslocations/site").subscribe(res =>{
       this.sites = res
       for(const res of this.sites){
         sitename.push(res.sc_name)
       }
-      // console.log(sitename)  
+      // console.log(sitename)
       this.sites = sitename
   });
  }
@@ -100,7 +100,7 @@ showDialog(){
       console.log("Error")
     }
     )
-  
+
  }
 
  EditZoneForm(){

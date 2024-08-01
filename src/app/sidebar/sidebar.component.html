@@ -1,3 +1,4 @@
+
 <div class="sidebar">
   <div class="logo-container">
     <img src="assets/icons/logo.png" alt="Logo" class="logo">
@@ -6,47 +7,49 @@
   </div>
   <ul>
     <li class="sidebar-item">
-      <a>
+      <a routerLink="dashboard" routerLinkActive="active">
         <img src="assets/icons/Sidebar/D1.png" alt="Dashboard">
         <span class="icon-text">Dashboard</span>
       </a>
     </li>
     <li class="sidebar-item">
-      <a>
+      <a routerLink="" routerLinkActive="active">
         <img src="assets/icons/Sidebar/D3.png" alt="Assets View">
         <span class="icon-text">Assets View</span>
       </a>
     </li>
     <li class="sidebar-item">
-      <a>
-        <img src="../../assets/icons/Sidebar/D3.png" alt="Items">
+      <a routerLink="/item-management" routerLinkActive="active">
+        <img src="../../assets/icons/Sidebar/D4.png" alt="Items">
         <span class="icon-text">Items</span>
       </a>
     </li>
     <li class="sidebar-item">
-      <a>
+      <a routerLink="reports" routerLinkActive="active">
+        <img src="assets/icons/Sidebar/image.png" alt="Accounts">
+        <span class="icon-text">Reports</span>
+      </a>
+    </li>
+    <li class="sidebar-item">
+      <a routerLink="/workflow" routerLinkActive="active">
         <img src="assets/icons/Sidebar/D6.png" alt="Workflow">
         <span class="icon-text">Workflow</span>
       </a>
     </li>
     <li class="sidebar-item">
-      <a>
+      <a routerLink="/settings" routerLinkActive="active">
         <img src="assets/icons/Sidebar/D5.png" alt="Settings">
         <span class="icon-text">Settings</span>
       </a>
     </li>
 
-    <li class="sidebar-item">
-      <a>
-        <img src="assets/icons/Sidebar/D7.png" alt="Accounts">
-        <span class="icon-text">Accounts</span>
-      </a>
-    </li>
-    <li class="sidebar-item">
+
+    <!-- <li class="sidebar-item">
       <a>
         <img src="assets/icons/Sidebar/D8.png" alt="Help">
         <span class="icon-text">Help</span>
       </a>
-    </li>
+    </li> -->
   </ul>
+
 </div>

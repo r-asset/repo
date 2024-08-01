@@ -1,90 +1,122 @@
 import { DatePipe } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ReportService } from '../../service/report.service';
 import { Table } from 'primeng/table';
 import { HttpClient } from '@angular/common/http';
 import * as XLSX from "xlsx-js-style";
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 
-
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-monthly-report',
   templateUrl: './monthly-report.component.html',
-  styleUrls: ['./monthly-report.component.scss']
+  styleUrls: ['./monthly-report.component.scss'],
+  // providers: [
+  //   { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  // ]
 })
-export class MonthlyReportComponent {
-  @ViewChild('dt', { static: true })
-dt!: Table;
-form: any;
+export class MonthlyReportComponent implements OnInit {
+  form: any;
+  displayedColumns: string[] = [];
+  dataSource: any[] = [];
+  datesArray: string[] = [];
+  row: any;
+  zones: any;
+  unitnames: any;
+  unit: any;
+  formgroup: boolean = false;
+  displaytable: boolean = false;
+  showloader: boolean = false;
+  maxDate!: Date;
+  date = new Date()
+  pipe = new DatePipe('en-US');
+  sites: any[] = [];
+  areas: any[] = [];
+  category: any[] = [];
 
-assetavailabilityTable: any;
+  @ViewChild('dt', { static: true }) dt!: Table;
 
-maxDate!: Date ;
-pipe = new DatePipe('en-US');
+  constructor(private fb: FormBuilder, private service: ReportService, private http: HttpClient) {}
 
-sitesname: any = [];
+  ngOnInit() {
+    this.service.getData("businesslocations/zone").subscribe(result => {
+      this.zones = result;
+    });
+
+    this.service.getData("virtualreport/unitname").subscribe(res => {
+      this.unit = res;
+      console.log(this.unit);
+    });
+
+    this.form = this.fb.group({
+      date: new FormControl(this.pipe.transform(this.date,'YYYY-MM')),
+      zone_name:  ['', Validators.required],
+      unitname:  ['', Validators.required]
+    });
+    console.log(this.form.value)
+  }
+
+  applyFilterGlobal($event: any, stringValue: any) {
+    this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringValue);
+  }
+
+  openfilter1() {
+    this.showloader = false;
+    this.formgroup = !this.formgroup;
+  }
+
+  openfilter() {
+    this.showloader = false;
+    this.displaytable = !this.displaytable;
+  }
+
+  getMonthlyDataCount(element: any, date: string): number {
+    if (element && element.monthly_data) {
+      const i = element.monthly_data.find((d: any) => d.date === date);
+      return i ? i.Total_Count : 0;
+    }
+    return 0;
+  }
+
+  onSubmit() {
+    this.displaytable = !this.displaytable;
+
+    const formattedDate = this.pipe.transform(this.form.value.date, 'yyyy-MM');
+    if (formattedDate) {
+      const [year, month] = formattedDate.split('-');
+      const payload = {
+        "month": month,
+        "year": year,
+        "zone_name": this.form.get('zone_name').value,
+        "unitname": this.form.get('unitname').value
+      };
 
 
+    console.log(payload);
+    this.service.postData('virtualreport/montlyreport', payload).subscribe(res => {
+      this.showloader = false;
+      this.row = res;
+      this.dataSource = this.row;
+      this.datesArray = this.dataSource.length > 0 ? this.dataSource[0].monthly_data.map((entry: any) => entry.date) : [];
+      this.displayedColumns = ['serialNumber', 'categoryName', 'zoneName', ...this.datesArray];
+    });
+  }
+  }
 
-formgroup:boolean=false;
-displaytable: boolean=false;
-showloader: boolean=false;
-
-siteurl = 'assets/site.json'
-
-
-constructor(private fb: FormBuilder,private service:ReportService,private http: HttpClient){
-
-}
-ngOnInit(): void {
-  this.form = this.fb.group({
-    aa_frmdte:   ['',Validators.required],
-    aa_todte:   ['',Validators.required],
-    aa_siteid: ['',Validators.required],
-  });
-   this.http.get(this.siteurl).subscribe(res=>{
-      this.sitesname=res
-
-      let sitename: string[] =[]
-      for(const res of this.sitesname){
-        sitename.push(res.sc_name)
-      }
-      console.log(sitename)
-      this.sitesname = sitename
-  });
-
-}
-applyFilterGlobal($event:any, stringValue:any){
-  this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringValue);
-}
-openfilter1(){
-  this.showloader = false
-  this.formgroup = !this.formgroup
-}
-
-openfilter(){
-  this.showloader = false
-  this.displaytable = !this.displaytable
-}
-
-OnSubmit(){
-  this.showloader = true;
-  this.displaytable = !this.displaytable
-
-  let formdate=this.pipe.transform(this.form.value.aa_frmdte,"yyyy-MM-dd")
-  let todate=this.pipe.transform(this.form.value.aa_todte,"yyyy-MM-dd")
-
-  this.form.controls['aa_frmdte'].setValue(formdate);
-  this.form.controls['aa_todte'].setValue(todate);
-
-  this.service.postData('virtualreport/assetavailability',this.form.value).subscribe(res =>{
-    this.assetavailabilityTable = res
-   })
-   this.showloader=false
-}
-exportExcel(){
-  const table = document.getElementById('dom');
+  exportExcel() {
+    const table = document.getElementById('monthly');
 
   if (!table) {
     console.error("The table element with ID 'dom' does not exist.");
@@ -98,7 +130,7 @@ exportExcel(){
      { s: { r: 1, c: 1 }, e: { r: 2, c: 6 } },
    ];
    ws['!merges'] = merge;
-   XLSX.utils.sheet_add_aoa(ws, [['Asset Availability Details']], { origin: 'B2' });
+   XLSX.utils.sheet_add_aoa(ws, [['Monthly Report Details']], { origin: 'B2' });
 
 
    // Leave 2 empty rows
@@ -203,7 +235,7 @@ exportExcel(){
 
 
   XLSX.utils.book_append_sheet(wb,ws);
-  XLSX.writeFile(wb, 'Asset_Availability.xlsx')
+  XLSX.writeFile(wb,'Monthly_Report.xlsx')
+}
+  }
 
-}
-}

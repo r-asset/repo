@@ -33,11 +33,6 @@ showloader: boolean=false;
 
 
 constructor(private fb: FormBuilder,private service:ReportService,private http: HttpClient){
-  this.searchby = [
-    {name:'Last Seen' ,       code: 'LAST SEEN'},
-    {name:'Expiration Date' , code: 'EXPIRATION DATE'},
-    {name:'Next Service' ,    code: 'NEXT SERVICE'}
-  ]
 }
 ngOnInit(): void {
   this.form = this.fb.group({
@@ -47,7 +42,6 @@ ngOnInit(): void {
     aa_areaid: ['',Validators.required],
     aa_zoneid: ['',Validators.required],
     aa_category:['',Validators.required],
-    aa_searchby:['',Validators.required],
   });
   this.service.getData("businesslocations/site").subscribe(res => {
     this.sitesname = res.map((site: any) => ({ label: site.sc_name, value: site.sc_id }));
@@ -94,7 +88,7 @@ OnSubmit(){
    this.showloader=false
 }
 exportExcel(){
-  const table = document.getElementById('dom');
+  const table = document.getElementById('avail');
 
   if (!table) {
     console.error("The table element with ID 'dom' does not exist.");

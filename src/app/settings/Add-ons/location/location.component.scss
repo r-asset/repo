@@ -8,10 +8,25 @@
 }
 
 ::ng-deep .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a {
-  padding: 10px;
+  padding: 4px;
+  font-size: 13px;
 }
 
 ::ng-deep .p-fieldset {
   margin: 10px;
   border: 0px;
 }
+
+::ng-deep span.p-fieldset-legend-text.ng-tns-c3519103761-5.ng-star-inserted{
+  padding: 8px;
+  color: black;
+  background:linear-gradient(5deg, #da2020, transparent);
+  cursor: not-allowed;
+}
+
+::ng-deep span.p-fieldset-legend-text.ng-tns-c3519103761-5.ng-star-inserted:hover{
+  padding: 8px;
+  color: black;
+  background:linear-gradient(-5deg, #da2020, transparent);
+}
+

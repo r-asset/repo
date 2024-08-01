@@ -13,7 +13,11 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 export class LocationComponent {
 
 
+  locationName: string = 'MATE U3';
 
+  onLocationNameChange(newName: string) {
+    this.locationName = newName;
+  }
 
 constructor(private service: SettingsService,private http: HttpClient){}
 

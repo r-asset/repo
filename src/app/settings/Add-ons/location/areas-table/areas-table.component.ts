@@ -41,10 +41,10 @@ export class AreasTableComponent {
       ar_state:["",Validators.required],
       ar_zipcode:["",Validators.required],
       ar_relatedzones:["",Validators.required],
- 
+
     });
-   
-   this.service.getData(this.endpoint).subscribe(res =>{  
+
+   this.service.getData(this.endpoint).subscribe(res =>{
      this.areas = res
      console.log(res)
     });
@@ -64,31 +64,31 @@ export class AreasTableComponent {
       ar_state:["",Validators.required],
       ar_zipcode:["",Validators.required],
       ar_relatedzones:["",Validators.required],
- 
+
     });
     let sitename:string[]=[]
-    this.service.getData("businesslocations/site").subscribe(res =>{  
+    this.service.getData("businesslocations/site").subscribe(res =>{
       this.sites = res
       for(const res of this.sites){
         sitename.push(res.sc_name)
       }
-      // console.log(sitename)  
+      // console.log(sitename)
       this.sites = sitename
   });
   }
-  
+
   codeEndpoint = "areacode"
 
   SavaData(Data:any){
     this.areas.push(Data)
   }
-  
+
   selectedData: any = null
   Update(Update:any){
     const i = this.areas.findIndex((user:any) => user.ar_code === this.selectedData.ar_code);
     this.areas[i] = Update;
   }
-  
+
   showDialog(){
     this.display = true;
     this.service.getData(this.codeEndpoint).subscribe(
@@ -142,5 +142,5 @@ export class AreasTableComponent {
       }
     )
   }
- 
+
 }

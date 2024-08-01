@@ -92,7 +92,7 @@ export class InoutReportComponent {
 
   //Exporting Excel Format
   exportExcel() {
-    const table = document.getElementById('dom');
+    const table = document.getElementById('inout');
 
     if (!table) {
       console.error("The table element with ID 'dom' does not exist.");

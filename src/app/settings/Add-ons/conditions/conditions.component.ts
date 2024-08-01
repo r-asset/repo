@@ -20,6 +20,7 @@ Editpopup: boolean = false;
 // url="assets/conditions.json"
 
 endpoint="condition/data"
+  visible: boolean = false;
 
 constructor(private service: SettingsService,private http: HttpClient,private fb:FormBuilder, private messageService: MessageService)
 {
@@ -28,12 +29,12 @@ constructor(private service: SettingsService,private http: HttpClient,private fb
       this.conditions = res
       console.log(res)
     })
- 
+
 }
 
 ngOnInit(){
    this.Addform=this.fb.group({
-     
+
       cdn_name:["",Validators.required],
       cdn_icon:[""],
       cdn_code:["",Validators.required],
@@ -43,10 +44,10 @@ ngOnInit(){
       cdn_modifiedon:["",Validators.required],
       cdn_modifiedby:["",Validators.required]
     })
-    
+
 
    this.Editform=this.fb.group({
-     
+
     cdn_name:["",Validators.required],
     cdn_icon:[""],
     cdn_code:["",Validators.required],
@@ -71,6 +72,7 @@ Update(Update:any){
 
 showDialog(){
   this.display = true;
+  this.visible = true;
   this.service.getData(this.codeEndpoint).subscribe(
     res =>{
     let code = res.cdn_code
@@ -94,15 +96,16 @@ showDialog(){
  }
 
  EditConditionForm(){
-  this.service.putData(this.endpoint, this.Editform.value).subscribe(
-    update =>{
+  this.service.putData(this.endpoint, this.Editform.value).subscribe({
+    next: update =>{
       this.Update(this.Editform.value)
       this.messageService.add({ severity: 'info', summary: 'Updated', detail:'Sucessfully', life: 4000 });
     },
-    error => {
+    error: error => {
       this.messageService.add({ severity: 'error', summary: 'Not Updated', detail: 'Failed', life: 4000 });
       console.log("Error")
     }
+  }
   )
  }
  editRow(i: any){

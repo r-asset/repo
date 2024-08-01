@@ -12,7 +12,7 @@ import { MessageService } from 'primeng/api';
 export class PlantManagementComponent {
   plantManagement: any ;
 
-  plantManagementUrl="assets/plant-management.json"
+
 
   Addform: any;
   Editform: any
@@ -24,7 +24,7 @@ submitted = '';
   constructor(private service: SettingsService,private http: HttpClient,private fb:FormBuilder, private messageService: MessageService){}
 
   ngOnInit(){
-  
+
      this.service.getData(this.endpoint).subscribe(res =>{
        this.plantManagement = res
        console.log(res)
@@ -50,28 +50,28 @@ submitted = '';
       pmmaxbeacons: ['', Validators.required]
     }) ;
   }
-  codeEndpoint = 'pmcode'
+  codeEndpoint = 'pmtcode'
 
   SavaData(Data:any){
     this.plantManagement.push(Data)
   }
-  
+
   selectedData: any = null
-  
+
   Update(Update:any){
     const i = this.plantManagement.findIndex((user:any) => user.pmcode === this.selectedData.pmcode);
     this.plantManagement[i] = Update;
   }
-  
+
   showDialog(){
     this.display = true;
     this.service.getData(this.codeEndpoint).subscribe(
       res =>{
       let code = res.pmcode
-      this.Addform.get('pmcode')?.setValue(code)
+      this.Addform.get('pmtcode')?.setValue(code)
     })
   }
-  
+
   AddPlantForm(){
     this.service.postData(this.endpoint,this.Addform.value).subscribe(
     res =>{
@@ -85,7 +85,7 @@ submitted = '';
       console.log("Error")
     }
     )
-  
+
   }
   editPlantForm(){
     this.service.putData(this.endpoint, this.Editform.value).subscribe(
@@ -99,14 +99,14 @@ submitted = '';
       }
     )
   }
-  
-  
+
+
   editRow(i:any){
     this.Editpopup= true;
     this.selectedData = i;
     this.Editform.patchValue(this.selectedData)
   }
-  
+
   deleteRow(i:any){
     this.service.deleteData(this.endpoint, i.udusercode).subscribe(
       () =>{
@@ -119,6 +119,6 @@ submitted = '';
         console.log("Error");
       }
     )
-  
+
   }
 }

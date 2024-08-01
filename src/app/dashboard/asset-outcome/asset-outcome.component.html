@@ -1,0 +1,77 @@
+<div class="wrapper">
+    <div class="container">
+      <div class="container-fluid" style="display:flex">
+<mat-card id="chart">
+
+        <div class="tabletitle">
+
+            <div>
+                <mat-card-subtitle><span class="head"  >Statistics</span></mat-card-subtitle>
+                <mat-card-subtitle><span class="subhead">Assets Outcome</span></mat-card-subtitle>
+            </div>
+
+            <div class="" style="display:inline-block;">
+                <img mat-card-image src="assets/icons/Info/truck.png" alt="Beacon_img" style="height: 60px ; width:75px">
+            </div>
+
+
+
+        </div>
+
+        <hr style="color:grey ; margin-top:-0.1rem ; margin-right:1rem; margin-left: 1rem">
+
+    <mat-card-content>
+        <!-- <span class="buttons">
+        <button
+            (click)="updateOptions( '1m' )"
+            [class.active]="activeOptionButton=='1m'"
+            >
+            1M
+            </button>
+        <button
+            (click)="updateOptions( '6m' )"
+            [class.active]="activeOptionButton=='6m'"
+            >
+            6M
+        </button>
+        <button
+            (click)="updateOptions( '1y' )"
+            [class.active]="activeOptionButton=='1y'"
+            >
+            1Y
+        </button>
+        <button
+            (click)="updateOptions( '1yd' )"
+            [class.active]="activeOptionButton=='1yd'"
+            >
+            1YD
+        </button>
+        <button
+            (click)="updateOptions( 'all' )"
+            [class.active]="activeOptionButton=='all'"
+            >
+            All
+        </button>
+    </span> -->
+    <div class="apxchart">
+        <apx-chart
+            [series]="chartOptions.series!"
+            [chart]="chartOptions.chart!"
+            [colors]="chartOptions.colors"
+            [yaxis]="chartOptions.yaxis!"
+            [dataLabels]="chartOptions.dataLabels!"
+            [markers]="chartOptions.markers!"
+            [stroke]="chartOptions.stroke!"
+            [grid]="chartOptions.grid!"
+            [xaxis]="chartOptions.xaxis!"
+            [tooltip]="chartOptions.tooltip!"
+            [annotations]="chartOptions.annotations!"
+            ></apx-chart>
+        </div>
+        </mat-card-content>
+</mat-card>
+</div>
+</div>
+</div>
+
+

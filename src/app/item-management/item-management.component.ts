@@ -13,6 +13,8 @@ import { faArrowRotateForward, faCheck, faChevronCircleDown, faCloudArrowUp, faP
 import { CookieService } from 'ngx-cookie-service';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
+import {  faTemperatureHigh } from '@fortawesome/free-solid-svg-icons';
+import { faBatteryThreeQuarters } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-item-management',
@@ -23,6 +25,9 @@ import { Observable, Subject } from 'rxjs';
 export class ItemManagementComponent {
   @ViewChild('dt') dt!: ElementRef;
   @ViewChild('dt', { static: false }) dtt!: Table;
+
+  temperature = faTemperatureHigh;
+  battery = faBatteryThreeQuarters;
 
   DataView!: any[];
   DataViewtype: any;
@@ -55,7 +60,7 @@ export class ItemManagementComponent {
   public SelectedHomeLoc: string = ''
   public SelectedCondi: string = ''
 
-  url = 'assets/item-data.json';
+  // url = 'assets/item-data.json';
   categories: any;
   conditions: any;
   status: any;
@@ -74,11 +79,6 @@ export class ItemManagementComponent {
   actionRow: MenuItem[] | any;
 
   constructor(private settingservice: SettingsService,private service: ItemManagementService,public dialogService: DialogService, public messageService: MessageService,private http: HttpClient,private fb: FormBuilder, private Cookie: CookieService, private confirmation: ConfirmationService) {
-
-    this.DataView = [
-      { label: '', value: 'history' },
-      { label: '', value: 'chartview' },
-    ];
 
 
     this.showtable=true
@@ -107,12 +107,13 @@ export class ItemManagementComponent {
       console.log(this.tableData)
     });
 
-    // this.service.getdata(this.endpoint).subscribe(res =>{
-    //   this.categories=res.category
-    //   this.conditions=res.condition
-    //   this.status=res.status
-    //   this.locations=res.location
-    // });
+    this.service.getData('').subscribe(res =>{
+      this.categories=res.category
+      this.conditions=res.condition
+      this.status=res.status
+      this.locations=res.location
+    });
+
     this.Addform = this.fb.group({
       im_code           : [''],
       bcn_code          : [''],
@@ -212,17 +213,18 @@ export class ItemManagementComponent {
   this.itemDialog=true
     this.selectedData = null
     this.ModalType = 'ADD'
-    this.service.getData(this.codeEndpoint).subscribe(
-      res => {
+    this.service.getData(this.codeEndpoint).subscribe({
+      next: res => {
 
         this.itemcode = res
         this.beaconcode = res
       },
-      error => {
+      error: error => {
         this.closeModal()
         this.messageService.add({ severity: 'error', summary: 'Code Not Generated', detail: 'Failed', life: 5000 });
         console.log("Error")
       }
+    }
     )
     this.Addform.controls['im_createdby'].setValue(this.Cookie.get('Username'))
     this.Addform.controls['im_modifiedby'].setValue(this.Cookie.get('Username'))
@@ -419,19 +421,20 @@ export class ItemManagementComponent {
   OnSave(form:any){
 
     if (this.Addform.valid) {
-      this.service.postData(this.endpoint, form).subscribe(
-        response =>{
+      this.service.postData(this.endpoint, form).subscribe({
+        next: response =>{
 
           this.SavaData(form)
           this.Addform.reset();
           this.closeModal();
           this.messageService.add({ severity: 'success', summary: 'Added', detail:'Sucessfully', life: 4000 });
         },
-        error => {
+        error: error => {
 
           this.messageService.add({ severity: 'error', summary: 'Not Added', detail: 'Failed', life: 4000 });
           console.log("Error")
         }
+      }
       )
     }
   }
@@ -442,18 +445,19 @@ export class ItemManagementComponent {
   OnUpdate(){
     if(this.selected){
 
-      this.service.putData(this.endpoint, this.Addform.value).subscribe(
-        update =>{
+      this.service.putData(this.endpoint, this.Addform.value).subscribe({
+        next: update =>{
 
           this.Update(this.Addform.value)
           this.closeModal();
           this.messageService.add({ severity: 'info', summary: 'Updated', detail:'Sucessfully', life: 4000 });
         },
-        error => {
+        error: error => {
 
           this.messageService.add({ severity: 'error', summary: 'Not Updated', detail: 'Failed', life: 4000 });
           console.log("Error")
         }
+      }
       )
     }
   }
@@ -474,8 +478,8 @@ export class ItemManagementComponent {
     {
       const code = this.selected[i].im_code;
       // console.log(id)
-      this.service.deleteData(this.endpoint, code).subscribe(
-        () => {
+      this.service.deleteData(this.endpoint, code).subscribe({
+        next: () => {
           const index = this.tableData.findIndex((j:any) => j.im_code === code);
           if (index !== -1) {
 
@@ -483,11 +487,11 @@ export class ItemManagementComponent {
             this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'Successfully', life: 4000 });
           }
         },
-        error => {
-
+        error: error => {
           this.messageService.add({ severity: 'error', summary: 'Not Deleted', detail: 'Failed', life: 4000 });
           console.log("Error");
         }
+      }
       );
     }
     this.selected = [];
@@ -534,7 +538,7 @@ export class ItemManagementComponent {
 
   exportXls(){
 
-   const table = document.getElementById('dom');
+   const table = document.getElementById('item');
 
    // Check if the table element exists
    if (!table) {
@@ -552,7 +556,7 @@ export class ItemManagementComponent {
     ];
 
     ws['!merges'] = merge;
-    XLSX.utils.sheet_add_aoa(ws, [['Asset Configuration Details']], { origin: 'B2' });
+    XLSX.utils.sheet_add_aoa(ws, [['Item Management Details']], { origin: 'B2' });
 
    // Leave 2 empty rows
    XLSX.utils.sheet_add_aoa(ws, [['']], { origin: 'B3' });

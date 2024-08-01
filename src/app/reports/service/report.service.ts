@@ -23,7 +23,7 @@ export class ReportService {
     return this.http.get(this.url+endpoint+'/',{params,headers})
   }
 
-  postData(endpoint:string, Data:any) {
+  postData(endpoint:string, Data:any):Observable <any> {
     let params = new HttpParams().set('plantname', 'MATE U3');
     let headers = new HttpHeaders().set('Authorization', 'auth-token');
     return this.http.post(this.url + endpoint + '/', Data, {params,headers})

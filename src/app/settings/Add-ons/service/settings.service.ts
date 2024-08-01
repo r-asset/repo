@@ -10,11 +10,12 @@ export class SettingsService {
 
   constructor(private http: HttpClient, private cookie: CookieService) { }
 
-url='http://127.0.0.1:8000'
+// url='http://127.0.0.1:8000'
+url = 'http://172.29.29.181:8077/'
 
   get(endpoint:any){
      return this.http.get('assets/site.json')
-  } 
+  }
 
   getData(endpoint:string):Observable <any> {
     let params = new HttpParams().set('plantname', 'MATE U3');
@@ -22,7 +23,7 @@ url='http://127.0.0.1:8000'
     return this.http.get(this.url+endpoint+'/',{params,headers})
   }
 
-  postData(endpoint:string, Data:any) {
+  postData(endpoint:string, Data:any):Observable <any> {
     let params = new HttpParams().set('plantname', 'MATE U3');
     let headers = new HttpHeaders().set('Authorization', 'auth-token');
     return this.http.post(this.url + endpoint + '/', Data, {params,headers})

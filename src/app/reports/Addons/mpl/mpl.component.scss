@@ -1,36 +1,57 @@
 @import "primeicons/primeicons.css";
 
-
-
 .searchtab{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  bottom: 44px;
+  position: relative;
+  height: 71px;
+  left: 4%;
 }
 .tablehead{
     display: flex;
     justify-content:center;
     align-items: center;
 }
-.custom_form {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  padding: 1rem;
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1), 2px 1px 2px 2px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  width: 520px;
-  height: 404px;
-  position: relative; /* Ensure it is positioned relative to the page flow */
-  z-index: 1; /* Ensure the form appears above the background image */
+// .custom_form {
+//   margin-top: 2rem;
+//   margin-bottom: 2rem;
+//   margin-left: 1rem;
+//   margin-right: 1rem;
+//   padding: 1rem;
+//   background-color: #ffffff;
+//   border-radius: 16px;
+//   box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1), 2px 1px 2px 2px rgba(0, 0, 0, 0.06);
+//   border: 1px solid rgba(0, 0, 0, 0.125);
+//   width: 520px;
+//   height: 404px;
+//   position: relative; /* Ensure it is positioned relative to the page flow */
+//   z-index: 1; /* Ensure the form appears above the background image */
+// }
+
+p-table#mpl.p-element{
+  position: relative;
+  left: 10px;
+  display:grid ;
+  bottom: 33px;
 }
+
 .heading{
     margin-right: 6rem;
 
 }
+
+::ng-deep{
+  .pi-filter[_ngcontent-lux-c81]:before {
+    content: "\e94c";
+    top: 9px;
+    left: 5px;
+    margin-bottom: 5px;
+    position: relative;
+}
+}
+
 .top-align{
   position:relative;
   top: 20px;
@@ -38,12 +59,57 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: stretch;
 }
 
-img{
-    width: 50px;
-    left: 2px;
-    position: relative;
+.img{
+  width: 40px;
+  left: 18px; //18px
+  position: relative;
+  top: 19px; //34px
+  margin-right: 10px;
+  cursor:pointer
+}
+
+.filter-icon-container {
+  position: relative;
+  display: inline-block;
+}
+
+.filter-button {
+  display: flex;
+  align-items: center;
+  top: 19px;
+  position:relative;
+  justify-content: center;
+  border: 1px solid #ccc; /* Add border if needed */
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: transparent; /* No background color */
+  transition: width 0.3s ease, padding 0.3s ease;
+  cursor: pointer;
+}
+
+.filter-text {
+  display: none;
+  margin-left: 1.5rem;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+}
+
+.filter-icon-container:hover .filter-button {
+  width: auto;
+  padding-right: 3rem; /* Adjust padding to fit the text */
+  border-radius: 2rem;
+}
+
+.filter-icon-container:hover .filter-button .filter-text {
+  display: inline;
+  opacity: 1;
+}
+
+.filter-icon-container:hover .pi{
+  margin-left: .8rem;
 }

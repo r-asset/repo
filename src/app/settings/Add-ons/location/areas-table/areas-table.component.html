@@ -36,64 +36,64 @@
 
 
 <p-dialog header="Add Area" [(visible)]="display" [modal]="true">
+  <span class="p-text-secondary block mb-5"></span>
     <form [formGroup]="Addform" (ngSubmit)="AddAreaForm()" novalidate>
         <div class="formgroup-inline">
 
             <div class="field">
                  <label for="name">Name</label>
-                 <input  class="block mb-2" type="text"  class="form-control" id="name" formControlName="ar_name"  [style]="{'width':'180px'}" pInputText-sm>
+                 <input   type="text"  pInputText class="flex-auto" id="name" formControlName="ar_name"  [style]="{'width':'180px'}" >
                  <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
              </div>
              <div class="field">
-                 <label for="name">Select the site</label>
-                 <p-dropdown class="block mb-2" [options]="sites" formControlName="ar_sitekey" [style]="{'width':'180px','height':'37px'}" inputId="name"></p-dropdown>
+                 <label for="name">Select site</label>
+                 <p-dropdown  class="flex-auto" [options]="sites" formControlName="ar_sitekey" [style]="{'width':'180px','height':'37px'}" inputId="name"></p-dropdown>
                  <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
              </div>
              <div class="field">
                  <label for="name">floor</label>
-                 <input  class="block mb-2" type="number"  class="form-control"  id="name" formControlName="ar_floor"  [style]="{'width':'180px'}" pInputText-sm>
+                 <input  pInputText class="flex-auto" type="number"  pInputText class="flex-auto"  id="name" formControlName="ar_floor"  [style]="{'width':'180px'}" >
                  <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
              </div>
      </div>
          <div class="formgroup-inline">
              <div class="field">
                   <label for="name">Country</label>
-                  <input  class="block mb-2" type="text" class="form-control"   id="name" formControlName="ar_country"  [style]="{'width':'180px'}" pInputText-sm>
+                  <input   type="text" pInputText class="flex-auto"   id="name" formControlName="ar_country"  [style]="{'width':'180px'}" pInputText-sm>
                   <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
               </div>
               <div class="field">
-                 <label for="name"> City </label>
-                 <input  class="block mb-2" type="text" class="form-control" id="name" formControlName="ar_city"  [style]="{'width':'180px'}" pInputText-sm>
+                 <label for="name"> Select City </label>
+                 <input   type="text" pInputText class="flex-auto" id="name" formControlName="ar_city"  [style]="{'width':'180px'}" pInputText-sm>
                  <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
              </div>
              <div class="field">
                  <label for="name">State</label>
-                 <input  class="block mb-2" type="text" class="form-control"  id="name" formControlName="ar_state"  [style]="{'width':'180px'}" pInputText-sm>
+                 <input   type="text" pInputText class="flex-auto"  id="name" formControlName="ar_state"  [style]="{'width':'180px'}" pInputText-sm>
                  <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
              </div>
          </div>
          <div class="formgroup-inline">
              <div class="field">
                   <label for="name">Latitude</label>
-                  <input  class="block mb-2" type="text" class="form-control"  id="name" formControlName="ar_latitude"  [style]="{'width':'180px'}" pInputText-sm>
+                  <input   type="text" pInputText class="flex-auto"  id="name" formControlName="ar_latitude"  [style]="{'width':'180px'}" pInputText-sm>
                   <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
               </div>
               <div class="field">
                  <label for="name">Longitude</label>
-                 <input  class="block mb-2" type="text" class="form-control"  id="name" formControlName="ar_longitude"  [style]="{'width':'180px'}" pInputText-sm>
+                 <input  type="text" pInputText class="flex-auto"  id="name" formControlName="ar_longitude"  [style]="{'width':'180px'}" pInputText-sm>
                  <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
              </div>
              <div class="field">
                  <label for="name">Zip Code</label>
-                 <input  class="block mb-2" type="number" class="form-control"   id="name" formControlName="ar_zipcode"  [style]="{'width':'180px'}" pInputText-sm>
+                 <input   type="number" pInputText class="flex-auto"   id="name" formControlName="ar_zipcode"  [style]="{'width':'180px'}" pInputText-sm>
                  <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
              </div>
 
          </div>
-        <p-footer>
+
             <!-- <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" ></button> -->
             <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" id="savebutton" [disabled]="Addform.invalid"></button>
-        </p-footer>
     </form>
 </p-dialog>
 
@@ -103,60 +103,60 @@
 
             <div class="field">
                  <label for="name">Name</label>
-                 <input  class="block mb-2" type="text"  class="form-control" id="name" formControlName="ar_name"  [style]="{'width':'180px'}" pInputText-sm>
+                 <input   type="text"  pInputText class="flex-auto" id="name" formControlName="ar_name"  [style]="{'width':'180px'}" pInputText-sm>
                  <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
              </div>
              <div class="field">
                  <label for="name">Select the site</label>
                  <!-- <p-dropdown  formControlName="ar_sitekey" [style]="{'width':'180px','height':'37px'}" [autoDisplayFirst]="false" [options]="areas.sc_id" >{{areas.sc_name}}</p-dropdown> -->
-                 <p-dropdown class="block mb-2" formControlName="ar_sitekey" [style]="{'width':'180px','height':'37px'}" inputId="name"></p-dropdown>
+                 <p-dropdown  formControlName="ar_sitekey" [style]="{'width':'180px','height':'37px'}" inputId="name"></p-dropdown>
                  <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
              </div>
              <div class="field">
                  <label for="name">floor</label>
-                 <input  class="block mb-2" type="number"  class="form-control"  id="name" formControlName="ar_floor"  [style]="{'width':'180px'}" pInputText-sm>
+                 <input   type="number"  pInputText class="flex-auto"  id="name" formControlName="ar_floor"  [style]="{'width':'180px'}" pInputText-sm>
                  <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
              </div>
      </div>
          <div class="formgroup-inline">
              <div class="field">
                   <label for="name">Country</label>
-                  <input  class="block mb-2" type="text" class="form-control"   id="name" formControlName="ar_country"  [style]="{'width':'180px'}" pInputText-sm>
+                  <input   type="text" pInputText class="flex-auto"   id="name" formControlName="ar_country"  [style]="{'width':'180px'}" pInputText-sm>
                   <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
               </div>
               <div class="field">
                  <label for="name"> City </label>
-                 <input  class="block mb-2" type="text" class="form-control" id="name" formControlName="ar_city"  [style]="{'width':'180px'}" pInputText-sm>
+                 <input   type="text" pInputText class="flex-auto" id="name" formControlName="ar_city"  [style]="{'width':'180px'}" pInputText-sm>
                  <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
              </div>
              <div class="field">
                  <label for="name">State</label>
-                 <input  class="block mb-2" type="text" class="form-control"  id="name" formControlName="ar_state"  [style]="{'width':'180px'}" pInputText-sm>
+                 <input   type="text" pInputText class="flex-auto"  id="name" formControlName="ar_state"  [style]="{'width':'180px'}" pInputText-sm>
                  <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
              </div>
          </div>
          <div class="formgroup-inline">
              <div class="field">
                   <label for="name">Latitude</label>
-                  <input  class="block mb-2" type="text" class="form-control"  id="name" formControlName="ar_latitude"  [style]="{'width':'180px'}" pInputText-sm>
+                  <input   type="text" pInputText class="flex-auto"  id="name" formControlName="ar_latitude"  [style]="{'width':'180px'}" pInputText-sm>
                   <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
               </div>
               <div class="field">
                  <label for="name">Longitude</label>
-                 <input  class="block mb-2" type="text" class="form-control"  id="name" formControlName="ar_longitude"  [style]="{'width':'180px'}" pInputText-sm>
+                 <input   type="text" pInputText class="flex-auto"  id="name" formControlName="ar_longitude"  [style]="{'width':'180px'}" pInputText-sm>
                  <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
              </div>
              <div class="field">
                  <label for="name">Zip Code</label>
-                 <input  class="block mb-2" type="number" class="form-control"   id="name" formControlName="ar_zipcode"  [style]="{'width':'180px'}" pInputText-sm>
+                 <input   type="number" pInputText class="flex-auto"   id="name" formControlName="ar_zipcode"  [style]="{'width':'180px'}" pInputText-sm>
                  <!-- <small class="p-error" *ngIf="submitted && !data.name">Name is required.</small> -->
              </div>
 
          </div>
-     <p-footer>
+
          <!-- <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" ></button> -->
          <button pButton pRipple label="Update" icon="pi pi-check" class="p-button-text" [disabled]="editform.invalid" id="savebutton"></button>
-     </p-footer>
+
 
 
     </form>

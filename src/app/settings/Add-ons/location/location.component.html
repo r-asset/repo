@@ -1,7 +1,9 @@
 <div class="location">
-  <app-locationtype></app-locationtype>
+  <app-locationtype (locationNameChange)="onLocationNameChange($event)"></app-locationtype>
 </div>
 <div class="type">
+  <p-fieldset  [legend]="locationName" [collapsed]="true"  [toggleable]="false" >
+  </p-fieldset>
   <p-fieldset legend="Sites" [collapsed]="true"  [toggleable]="true">
     <app-sites-table></app-sites-table>
   </p-fieldset>

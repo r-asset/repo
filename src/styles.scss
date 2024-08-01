@@ -5,18 +5,18 @@
 // @import 'bootstrap/scss/bootstrap';
 
 @font-face {
-    font-family: 'SharpSans';
-    src: url('./assets/GraphikMedium.otf') format('opentype');
+    font-family: 'poppins';
+    src: url('./assets/Poppins-Regular.ttf') format('opentype');
     font-weight: 200;
   }
 
   *{
-    font-family: 'Sharpsans', sans-serif;
+    font-family: 'poppins', sans-serif;
     letter-spacing: 0.7px;
   }
 
 html, body { height: 100%; background-color: #fff;}
-body { margin: 0; font-family: 'SharpSans', sans-serif; letter-spacing: 0.5px;}
+body { margin: 0; font-family: 'poppins', sans-serif; letter-spacing: 0.5px;}
 
 body::-webkit-scrollbar {
   width: 10px;
@@ -41,14 +41,14 @@ body::-webkit-scrollbar-thumb {
   border-radius: 20px;
 }
 
-.inika-regular {
-  font-family: "Inika", serif;
-  font-weight: 400;
-  font-style: normal;
-}
+// .inika-regular {
+//   font-family: "Inika", serif;
+//   font-weight: 400;
+//   font-style: normal;
+// }
 
-.inika-bold {
-  font-family: "Inika", serif;
-  font-weight: 700;
-  font-style: normal;
-}
+// .inika-bold {
+//   font-family: "Inika", serif;
+//   font-weight: 700;
+//   font-style: normal;
+// }

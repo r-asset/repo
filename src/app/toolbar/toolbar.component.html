@@ -6,29 +6,51 @@
       <ul>
         <li>
           <a>
-            <img src="../../assets/icons/Topbar/location.png" class="location">
-            <span class="icon-text">View Site</span>
+            <a routerLink="map" routerLinkActive="active"></a>
+            <img src="../../assets/icons/Topbar/location.png" alt="" class="location" style="top: 5px; position: relative;">
+            <span class="icon-text" style="color: #000;">View Site</span>
+          </a>
+        </li><li>
+          <a>
+            <img src="../../assets/icons/Topbar/reports.png" alt="" class="report"  style="top: 5px; position: relative;">
+            <span class="icon-text" style="color: #000;">Reports</span>
           </a>
         </li>
+
         <li>
           <a>
-            <img src="../../assets/icons/Topbar/profile.png" class="profile">
-            <span class="icon-text">Admin</span>
+            <img src="../../assets/icons/Topbar/notification.png" alt="" class="notify"  style="top: 5px; position: relative;">
           </a>
-        </li>
-        <li>
+        </li>        <li>
           <a>
-            <img src="../../assets/icons/Topbar/notification.png" class="notify">
+            <img src="../../assets/icons/Topbar/profile.png" (click)="op.toggle($event)" alt="" class="profile"  style="top: 5px; position: relative;">
+            <span class="icon-text" style="color: #000;" (click)="op.toggle($event)">Admin</span>
           </a>
         </li>
-        <li>
-          <a>
-            <img src="../../assets/icons/Topbar/reports.png" class="report">
-            <span class="icon-text">Reports</span>
-          </a>
-        </li>
+        <p-overlayPanel #op>
+          <div class="flex flex-column gap-3 w-60rem">
+            <u><b><label style="left: 40%;position: relative;">Profile</label></b></u>
+            <table>
+              <tr>
+                  <td><label><span class="form-style"> Name </span></label></td>&nbsp;
+                  <td>
+                      <span class="semi"> &nbsp; R.Gokulraj  </span>
+                   </td>
+              </tr>
+              <tr>
+                  <td><label><span class="form-style" >Email </span></label></td>&nbsp;
+                  <td>
+                      <span class="semi"> &nbsp; Rajasekaran.Gokulraj &#64; motherson.com </span></td>
+              </tr>
+              <tr>
+                <td><label><span class="form-style" >Unit </span></label></td>&nbsp;
+                <td>
+                    <span class="semi"> &nbsp; MATE U3 </span></td>
+            </tr><br>
+            <p-button icon="pi pi-power-off" label="Logout" severity="danger" [style]="{'width':'120px','height':'20px','font-size':'1rem'}"/>
+              </table></div></p-overlayPanel>
       </ul>
-      
+
     </div>
   </div>
 </div>
