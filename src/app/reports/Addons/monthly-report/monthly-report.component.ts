@@ -92,7 +92,7 @@ export class MonthlyReportComponent implements OnInit {
 
   onSubmit() {
     this.displaytable = !this.displaytable;
-
+    this.showloader = true;
     const formattedDate = this.pipe.transform(this.form.value.date, 'yyyy-MM');
     if (formattedDate) {
       const [year, month] = formattedDate.split('-');
@@ -111,6 +111,11 @@ export class MonthlyReportComponent implements OnInit {
       this.dataSource = this.row;
       this.datesArray = this.dataSource.length > 0 ? this.dataSource[0].monthly_data.map((entry: any) => entry.date) : [];
       this.displayedColumns = ['serialNumber', 'categoryName', 'zoneName', ...this.datesArray];
+
+      setTimeout(() => {
+        this.showloader = false;
+        this.displaytable = true;
+      }, 1000);
     });
   }
   }

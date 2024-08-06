@@ -25,7 +25,7 @@ p-table#dwell.p-element{
   position: relative;
   left: 10px;
   display:grid ;
-  bottom: 33px;
+  bottom: 50px;
 }
 
 // ::ng-deep .pt-2{
@@ -74,7 +74,7 @@ p-table#dwell.p-element{
     .p-datatable th {
         font-size:small;
         color: #000000 !important;
-        text-align: center !important;
+        text-align: left !important;
         text-transform: uppercase;
         background: #FFCDCD !important;
 
@@ -88,7 +88,7 @@ p-table#dwell.p-element{
 ::ng-deep {
     .p-datatable td {
         font-size:small;
-        text-align: center !important;
+        text-align: left !important;
         text-overflow: ellipsis !important;
         white-space: nowrap;
         overflow: hidden;

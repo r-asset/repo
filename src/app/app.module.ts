@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';import {MatTabsModule} f
 import { AppComponent } from './app.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-;
+
 import { ItemManagementComponent } from '../app/item-management/item-management.component';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
@@ -92,6 +92,8 @@ import { MapViewComponent } from './map-view/map-view.component';
 import { LoaderComponent } from './loader/loader.component';
 import { SliderModule } from 'primeng/slider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { SkeletonModule } from 'primeng/skeleton';
+import { ChipModule } from 'primeng/chip';
 
 //Dashboard Component
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -204,8 +206,9 @@ import { AssetOutcomeComponent } from './dashboard/asset-outcome/asset-outcome.c
         ScrollPanelModule,
         MatCardModule,
         SliderModule,
-        // MatSlider,
+        ChipModule,
         MatSliderModule,
+        SkeletonModule
     ]
 })
 export class AppModule { }

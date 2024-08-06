@@ -133,7 +133,6 @@ ngOnInit(): void {
     wfmodifiedon    : [""],
     wfmodifiedby   : [""],
     sstatus        : [],
-
     scondition     :[],
     sclassification:  [true],
     scategory:  [],
@@ -257,9 +256,19 @@ onSubmit() {
     this.Addform.markAllAsTouched(); // Mark all fields as touched
     return;
   }
+  const stimeControl = this.Addform.get('stime');
+  if (stimeControl && stimeControl.value) {
+    const date = new Date(stimeControl.value);
+    stimeControl.setValue(date.toISOString().split('T')[0]); // Format to yyyy-mm-dd
+  }
   // Handle valid form submission
 }
 AddNewForm(){
+  const formValue = this.Addform.value;
+  if (formValue.stime) {
+    const date = new Date(formValue.stime);
+    formValue.stime = date.toISOString().split('T')[0]; // Format to yyyy-mm-dd
+  }
   this.service.postData(this.endpoint,this.Addform.value).subscribe(
      res =>{
       this.SavaData(this.Addform.value)

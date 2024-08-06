@@ -1,12 +1,12 @@
 
 <div class="topbar">
   <div class="topbar-content">
-    <span class="title">MATE U3W</span>
+    <span class="title">MATE U3
+      </span>
     <div class="topbar-links">
       <ul>
         <li>
-          <a>
-            <a routerLink="map" routerLinkActive="active"></a>
+            <a [routerLink]="['/map']" routerLinkActive="active" style="text-decoration: none;">
             <img src="../../assets/icons/Topbar/location.png" alt="" class="location" style="top: 5px; position: relative;">
             <span class="icon-text" style="color: #000;">View Site</span>
           </a>
@@ -27,28 +27,34 @@
             <span class="icon-text" style="color: #000;" (click)="op.toggle($event)">Admin</span>
           </a>
         </li>
-        <p-overlayPanel #op>
+        <p-overlayPanel #op [style]="{'padding':'2rem'}">
           <div class="flex flex-column gap-3 w-60rem">
-            <u><b><label style="left: 40%;position: relative;">Profile</label></b></u>
-            <table>
-              <tr>
-                  <td><label><span class="form-style"> Name </span></label></td>&nbsp;
-                  <td>
-                      <span class="semi"> &nbsp; R.Gokulraj  </span>
-                   </td>
-              </tr>
-              <tr>
-                  <td><label><span class="form-style" >Email </span></label></td>&nbsp;
-                  <td>
-                      <span class="semi"> &nbsp; Rajasekaran.Gokulraj &#64; motherson.com </span></td>
-              </tr>
-              <tr>
-                <td><label><span class="form-style" >Unit </span></label></td>&nbsp;
-                <td>
-                    <span class="semi"> &nbsp; MATE U3 </span></td>
-            </tr><br>
-            <p-button icon="pi pi-power-off" label="Logout" severity="danger" [style]="{'width':'120px','height':'20px','font-size':'1rem'}"/>
-              </table></div></p-overlayPanel>
+            <!-- <u><b><label style="left: 40%;position: relative;">Profile</label></b></u> -->
+            <div class="flex">
+              <div class="item" style="font-weight: bold;">Name : &nbsp;</div>
+              <div class="item">R.Gokulraj <i class="pi pi-check-circle" pStyleClass="p-button-raised" style="color: green"></i></div>
+            </div>
+            <div class="flex">
+              <div class="item" style="font-weight: bold; margin-top: 5%;">Email : &nbsp;</div>
+              <div class="item" style=" margin-top: 5%;">Gokulraj.Rajasekaran&#64;motherson.com</div>
+            </div>
+            <div class="flex">
+              <div class="item" style="font-weight: bold; margin-top: 5%;">Unit &nbsp;: &nbsp;&nbsp;&nbsp;</div>
+              <div class="item" style=" margin-top: 5%;">UNIT III</div>
+            </div>
+            <div class="flex">
+              <p-button icon="pi pi-power-off" label="Logout" size="small" [style]="{' padding': '2px',
+                'font-size': 'small','margin-top':'5%'}" styleClass="p-button-raised p-button-danger p-button-text"></p-button>
+                <!-- <p-chip styleClass="pl-0 pr-3" click="click()">
+                  <span class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center pi pi-power-off p-button-danger">
+
+                  </span>
+                  <span class="ml-2 font-medium">
+                      Logout
+                  </span>
+              </p-chip> -->
+            </div>
+            </div></p-overlayPanel>
       </ul>
 
     </div>

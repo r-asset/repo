@@ -11,6 +11,10 @@ import { faTemperatureDown, faTemperatureUp, faTemperatureHigh, faDroplet} from 
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent {
+click(){
+  console.log('clicked');
+}
+
   DisplayUserModal = false
 
   constructor(private Cookie: CookieService, private router: Router) {}

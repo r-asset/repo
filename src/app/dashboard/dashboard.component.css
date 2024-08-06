@@ -103,7 +103,7 @@
 /*
 added styles */
 .card-container {
-  display: flex;
+  /* display: flex;
   gap: 1rem;
   flex: 1;
   padding: 5px;
@@ -111,7 +111,13 @@ added styles */
   align-content: space-around;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: flex-end; */
+  display: flex;
+  gap: 1rem;
+  flex-grow: 1;
+  padding: 5px;
   align-items: flex-end;
+  /* flex-wrap: wrap; */
 }
 
 @media (max-width: 768px) {
@@ -127,6 +133,18 @@ added styles */
   margin-top: -0.8rem;
   flex: 1;
 }
+.card3{
+  margin-top: 0.5rem;
+  flex: 1;
+}
+
+.card-container1 {
+  display: flex;
+  gap: 1rem;
+  flex-grow: 1;
+  padding: 5px;
+  align-items: flex-end;
+}
 
 img.mat-card-image {
   max-height: 24px; /* Adjust height of the beacon image as necessary */
@@ -141,9 +159,6 @@ img.mat-card-image {
 }
 
 
-
-
-
 .chart-row2{
   display: flex;
   flex-wrap: wrap;
@@ -153,15 +168,6 @@ img.mat-card-image {
   align-items: start;
 
 }
-
-
-
-
-
-
-  .card {
-    /* overflow: hidden; */
- }
 
   .transaction{
     margin-top: 0.8rem;
@@ -203,25 +209,14 @@ img.mat-card-image {
     width: 300px;
     height:221px;
   }
-  /* .mat-mdc-card-header .hrs{
-    display:inline-block;
-  }
-
-  .mat-mdc-card-header .details{
-    padding-top: 20px;
-  } */
-
 
    .montly_details{
     width: 329px;
     height: 300px;
   }
-  /* .mat-mdc-card-header .hrs-dis{
-    display: flow-root;
-  } */
+
   .mat-mdc-card-content:last-child{
     display: flow;
-    /* padding: 0 16px; */
     padding-top: 20px;
 }
 
@@ -260,10 +255,6 @@ img.mat-card-image {
  font-weight: 1000
 }
 .right-content img {
-  /* display: flex;
-  justify-content: center;
-
-  align-items: end; */
   margin-top: -2rem;
 }
 
@@ -285,9 +276,27 @@ img.mat-card-image {
 
 @media (min-width: 1440px){
   .secondary{
-    flex-shrink: 0 !important;
+    flex-shrink: 1 !important;
     flex-basis: 200px !important;
   }
+  .card{
+    flex-shrink: 0 !important;
+  }
+  .card3{
+    flex-shrink: 0 !important;
+  }
+  .card1{
+    flex-grow: 1 !important;
+  }
+}
+
+@media (max-width:992px){
+  .card-container1{
+      flex-wrap: wrap !important;
+  }
+  .card-container{
+    flex-wrap: wrap !important;
+}
 }
 
 ::ng-deep .p-datepicker table td {

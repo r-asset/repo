@@ -12,7 +12,7 @@
 p-table#monthly.p-element{
   position: relative;
   left: 10px;
-  bottom: 33px;
+  bottom: 60px;
 }
 .tablehead{
     display: flex;
@@ -65,3 +65,44 @@ p-table#monthly.p-element{
 }
 
 
+.table-container {
+  overflow-x: auto; /* Ensures horizontal scroll if needed */
+}
+
+.table-wrapper {
+  display: block;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  // border: 1px solid #ddd;
+  // padding: 8px;
+  white-space: nowrap; /* Prevents cell contents from wrapping */
+}
+
+th {
+  position: sticky;
+  top: 0;
+  // background-color: #f1f1f1;
+}
+
+.fixed-column {
+  position: sticky;
+  left: 0;
+  background-color: inherit;
+  z-index: 1;
+}
+
+/* Additional fixed columns */
+.fixed-column:nth-child(2) {
+  left: 40px; /* Adjust based on the width of your first column */
+}
+
+.fixed-column:nth-child(3) {
+  left: 200px; /* Adjust based on the width of your first and second columns */
+}

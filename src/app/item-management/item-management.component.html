@@ -137,7 +137,7 @@
                     'out2': item.zn_name === 'MATE-B OUT 2'}">
                     {{ item.zn_name}} </td>
                   <!-- <td class="homeloc"> {{ item.im_zonehomeid.zn_name }}    </td> -->
-                  <td> {{ item.im_temperature }}<fa-icon *ngIf="item.im_temperature >= 0  " [icon]="temperature" class="fa-beat-fade" style="color: red; width:13px; height: 30px; margin-left: 15px;"></fa-icon></td>
+                  <td> {{ item.im_temperature }}<fa-icon *ngIf="item.im_temperature >= 0  " [icon]="temperature" class="fa-beat-fade " style="color: red; width:13px; height: 30px; margin-left: 15px;"></fa-icon></td>
                   <td> {{ item.im_battery }}  <fa-icon *ngIf="item.im_battery >= 50  " [icon]="battery" class="fa-shake" style="color: green; width:13px; height: 30px; margin-left: 15px; "></fa-icon>
                     <fa-icon *ngIf="item.im_battery < 50  " [icon]="battery" style="color: red; width:13px; height: 30px; margin-left: 25px; "></fa-icon>          </td>
                   <!-- <td> {{item.last_updated | slice:0:10}} {{item.im_lastupdated | slice:11:19}}</td> -->
@@ -154,11 +154,9 @@
 
           </p-table>
           </div>
-
-      <!-- </div> -->
   </div>
 
-  <!-- <img class="img" src="assets/assetbg.PNG" height="62%" width="80%"> -->
+
 
 
   <p-dialog [(visible)]="itemDialog" [breakpoints]="{ '1000px': '60vw', }" [style]="{width: '72vw',height: '100%'}" header="Item Details" [maximizable]="true" [modal]="true" >
@@ -578,7 +576,7 @@
 
     <div class="form-control">
       <label for="name">Modified By</label>
-      <input class="input" type="text" formControlName="im_modifiedby" placeholder="Enter" [readOnly]="true" required>
+      <input pInputText  type="text" formControlName="im_modifiedby" placeholder="Enter" [readOnly]="true" required>
       <div *ngIf="Addform.get('im_modifiedby')?.invalid && (Addform.get('im_modifiedby')?.dirty || Addform.get('im_modifiedby')?.touched)" class="error">
         <div *ngIf="Addform.get('im_modifiedby')?.errors!required">
           *required
@@ -593,7 +591,6 @@
 
   <ng-template pTemplate="footer">
     <div class="foot">
-      <button class="button close" (click)="closeModal()" >CLOSE<fa-icon [icon]="cross"></fa-icon></button>
       <button class="button ok" [disabled]="this.Addform.invalid" (click)="onSubmit()">{{ModalType}}<fa-icon [icon]="check"></fa-icon></button>
     </div>
     </ng-template>

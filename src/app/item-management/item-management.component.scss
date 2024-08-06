@@ -203,6 +203,11 @@
 .space{
   padding-right: 10px;
 }
+::ng-deep{
+button, input, optgroup, select, textarea {
+  font-size: 57% !important;
+}
+}
 .addDel{
     display:flex;
     gap: 10px;
@@ -1399,4 +1404,28 @@ select {
 }
 
 
-// new loader
+.table-skeleton-rounded {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.skeleton-header,
+.skeleton-row {
+  display: table-row;
+}
+
+.skeleton-header p-skeleton,
+.skeleton-row p-skeleton {
+  display: table-cell;
+  margin: 0;
+}
+
+.skeleton-header {
+  font-weight: bold;
+}
+
+.skeleton-row p-skeleton {
+  border-radius: 8px;
+}
+

@@ -40,7 +40,7 @@ export class ReportsComponent {
         pathTrackingElement.style.position = 'absoute';
         pathTrackingElement.style.overflow = 'hidden';
         pathTrackingElement.style.left = '15%';
-        pathTrackingElement.style.top = '220%';
+        pathTrackingElement.style.top = '200px';
       } else {
         defaultImageElement.style.display = 'block';
         defaultImageElement.style.left = '30%';

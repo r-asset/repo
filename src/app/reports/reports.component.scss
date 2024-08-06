@@ -162,11 +162,11 @@
 }
 
 .bg{
-      left: 30%;
-      top: 40%;
-      position: fixed;
-      opacity: .5;
-      overflow: hidden;
+  left: 30%;
+  top: 40%;
+  position: fixed;
+  opacity: .5;
+  overflow: hidden;
       // z-index: 1; /* Ensure the background image is behind other content */
 }
 
@@ -175,8 +175,8 @@
   height: auto;
   position: absolute;
   left: 15%;
-  top: 220%;
-  opacity: .7;
+  top: 200px;
+  opacity: .5;
   // z-index: 1;
 
 }
@@ -196,4 +196,20 @@
   scroll-behavior: smooth;
   scrollbar-width: none;
   overscroll-behavior: contain auto;
+}
+
+:host {
+  ::ng-deep {
+      * {
+          &::-webkit-scrollbar {
+              width: 10px;
+              height: 8px;
+          }
+          &::-webkit-scrollbar-thumb {
+              background-color: #FFCDCD;
+              border-radius: 20px;
+          }
+      }
+    }
+
 }

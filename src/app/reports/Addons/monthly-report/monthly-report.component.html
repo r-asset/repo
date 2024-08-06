@@ -21,19 +21,25 @@
         </form>
 </div>
 
-<div *ngIf="showloader"><img src="assets\loader1.gif" alt="" class="loader1"></div>
+<div *ngIf="showloader" class="loader-wrapper">
+  <img src="assets\loader1.gif" alt="" class="loader1">
+</div>
 <div *ngIf="displaytable">
-  <img src="../../../../assets/icons/fluent--filter-sync-20-filled.png" alt="filter" class="img" (click)="openfilter()">
-
+  <div class="filter-icon-container"   >
+    <button class="filter-button" (click)="openfilter()">
+      <i class="pi pi-filter "></i>
+      <span class="filter-text">Filter</span>
+    </button>
+  </div>
         <div class="mt-2">
             <div class="searchtab ml-2" >
                 <span class="p-input-icon-left">
                 <i class="pi pi-search"></i>
-                <input pInputText  type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Global Search" [style]="{'width':'180px','height':'37px'}"/>
+                <input pInputText  type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Global Search" [style]="{'width':'180px','height':'30px','font-size':'small'}"/>
             </span>
 
             <div class="heading">
-                <h6 class="pt-2" style="text-align: center; font-size: 1rem;  font-weight: bolder;" >Monthly Report </h6>
+                <h6 class="pt-2" style="text-align: center; font-size: 1.5rem;  font-weight: bolder;" >Monthly Report </h6>
             </div>
 
             <div class="tablehead pb-2 pt-2 mr-2">
@@ -44,9 +50,9 @@
         <p-table #dt id="monthly" [value]="dataSource"    [scrollable]="true" scrollHeight="600px" styleClass="mt-3"  >
           <ng-template pTemplate="header">
             <tr>
-              <th  pFrozenColumn >S.No </th>
-              <th    pFrozenColumn pSortableColumn="category_name">CATEGORY NAME <p-sortIcon field="category_name"></p-sortIcon> </th>
-              <th   pFrozenColumn pSortableColumn="zone_Name">ZONE NAME <p-sortIcon field="zone_Name"></p-sortIcon></th>
+              <th class="fixed-column" >S.No </th>
+              <th    class="fixed-column" pSortableColumn="category_name">CATEGORY NAME <p-sortIcon field="category_name"></p-sortIcon> </th>
+              <th  class="fixed-column" pSortableColumn="zone_Name">ZONE NAME <p-sortIcon field="zone_Name"></p-sortIcon></th>
               <ng-container *ngFor="let date of datesArray">
                 <th pSortableColumn="{{ date }}">
                   <div class="vertical-header">{{ date }} </div>
@@ -56,9 +62,9 @@
           </ng-template>
           <ng-template pTemplate="body" let-element let-i="rowIndex">
             <tr>
-              <td pFrozenColumn>{{ i + 1 }}</td>
-              <td pFrozenColumn>{{ element.category_name }}</td>
-              <td pFrozenColumn>{{ element.zone_name }}</td>
+              <td class="fixed-column">{{ i + 1 }}</td>
+              <td class="fixed-column">{{ element.category_name }}</td>
+              <td class="fixed-column">{{ element.zone_name }}</td>
               <ng-container *ngFor="let date of datesArray">
                 <td class="datecell">
                   <ng-container *ngIf="element && element.monthly_data">

@@ -3,11 +3,13 @@
 
 <router-outlet></router-outlet>
 
-<p-scrollTop>
+<!-- <p-scrollTop>
   <ng-template pTemplate="icon">
-    <i class="fi fi-sr-arrow-small-up"></i>
+    <i class="pi pi-arrow-circle-up" styleClass="custom-scrolltop"></i>
   </ng-template>
-</p-scrollTop>
+</p-scrollTop> -->
+
+<p-scrollTop  class="custom-scrolltop" [threshold]="100" icon="pi pi-arrow-circle-up" [style]="{'background':'#da2020'}"/>
 
 <!-- <app-footer *ngIf="getRouter().url !== '/' "></app-footer> -->
 

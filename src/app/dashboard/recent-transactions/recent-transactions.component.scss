@@ -77,18 +77,19 @@ p-table #dom.p-element{
 
 ::ng-deep {
     .p-icon{
-    width: 0.6rem;
+    width:1rem;
     }
 }
 
 ::ng-deep .p-calendar-w-btn .p-inputtext{
         height:28px;
-        width:100px !important;
+        width:83px !important;
         font-size: small !important;
 }
 
 ::ng-deep .p-calendar-w-btn .p-datepicker-trigger{
         height:28px;
+        width:26px;
 
 
 }

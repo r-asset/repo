@@ -3,8 +3,6 @@
   flex: 1;
   justify-content: center;
   align-items: center;
-  width: 645px !important;
-  height: 350px !important;
   overflow: hidden;
   border-radius: 15px;
   border: 1px solid #80808080;
@@ -38,9 +36,10 @@ table {
 font-size:small;
 text-align: left !important;
 text-overflow: ellipsis !important;
-white-space: nowrap;
-/* overflow: hidden; */
+/* white-space: nowrap; */
+overflow: hidden;
 }
+
 ::ng-deep
   .p-sortable-column-icon {
       width: 12px !important;

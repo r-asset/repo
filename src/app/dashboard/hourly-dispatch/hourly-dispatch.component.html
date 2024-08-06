@@ -34,7 +34,7 @@
             <div class="switch">
               <p-toggleButton
               [(ngModel)]="checked"
-              class="custom-toggle-button"  
+              class="custom-toggle-button"
               (click)="togglebtn()"
               onLabel="Out"
               offLabel="In" />
@@ -44,7 +44,7 @@
 
             <div class="" style="display:inline-block;">
                 <form  [formGroup]="form" >
-                    <p-calendar  dateFormat="dd.mm.yy"  formControlName="date" (onSelect)="OnSubmit($event)"  placeholder="Select Date"  [style]="{'width':'100px','height':'30px'}"></p-calendar>
+                    <p-calendar  dateFormat="dd.mm.yy"  formControlName="date" [showIcon]="true" (onSelect)="OnSubmit($event)"   ></p-calendar>
                 </form>
             </div>
 

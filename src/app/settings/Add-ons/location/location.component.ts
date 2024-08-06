@@ -18,6 +18,7 @@ export class LocationComponent {
   onLocationNameChange(newName: string) {
     this.locationName = newName;
   }
+  
 
 constructor(private service: SettingsService,private http: HttpClient){}
 

@@ -26,7 +26,6 @@ zonesname: any = [];
 areasname: any = [];
 categoriesname: any = [];
 
-searchby: any;
 formgroup:boolean=false;
 displaytable: boolean=false;
 showloader: boolean=false;

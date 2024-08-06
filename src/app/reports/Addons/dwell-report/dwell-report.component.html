@@ -50,15 +50,19 @@
     </div>
 </div>
 
-<div *ngIf="showloader"><img src="assets\loader1.gif" alt="" class="loader1"></div>
+<div *ngIf="showloader" class="loader-wrapper"><img src="assets\loader1.gif" alt="" class="loader1"></div>
 <div *ngIf="displaytable">
-  <img src="../../../../assets/icons/fluent--filter-sync-20-filled.png" alt="filter" class="img" (click)="openfilter()">
-
+  <div class="filter-icon-container"   >
+    <button class="filter-button" (click)="openfilter()">
+      <i class="pi pi-filter "></i>
+      <span class="filter-text">Filter</span>
+    </button>
+  </div>
     <div class="mt-2">
         <div class="searchtab ml-2" >
             <span class="p-input-icon-left">
             <i class="pi pi-search"></i>
-            <input pInputText  type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Global Search" [style]="{'width':'180px','height':'37px'}"/>
+            <input pInputText  type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Global Search" [style]="{'width':'180px','height':'30px','font-size':'small'}"/>
         </span>
 
         <div class="heading">

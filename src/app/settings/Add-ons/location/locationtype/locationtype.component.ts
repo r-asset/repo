@@ -53,7 +53,7 @@ export class LocationtypeComponent {
       })
   }
   onLocationNameChange() {
-    this.locationNameChange.emit(this.form.value.lc_name);
+    this.locationNameChange.emit(this.editform.value.lc_name);
   }
   codeEndpoint = "locationcode"
 

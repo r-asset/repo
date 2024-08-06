@@ -107,7 +107,7 @@ export class ItemManagementComponent {
       console.log(this.tableData)
     });
 
-    this.service.getData('').subscribe(res =>{
+    this.service.getData('asset/dashboard').subscribe(res =>{
       this.categories=res.category
       this.conditions=res.condition
       this.status=res.status
