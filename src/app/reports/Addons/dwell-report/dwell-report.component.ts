@@ -21,6 +21,7 @@ sitesname: any = [];
 zonesname: any = [];
 areasname: any = [];
 categoriesname: any = [];
+AssetDetails: any;
 
 pipe = new DatePipe('en-US');
 DwellTable: any;
@@ -28,6 +29,8 @@ dwellSearch: any;
 dwellValue: any;
 
 maxDate!: Date ;
+selectedCategoryName: string = '';
+
 
 
 
@@ -64,6 +67,7 @@ constructor(private fb: FormBuilder,private service: ReportService,private http:
 
   this.service.getData("category/data").subscribe(res => {
     this.categoriesname = res.map((category: any) => ({ label: category.cm_name, value: category.cm_id }));
+    this.AssetDetails = res.cm_name
   });
 
 
@@ -82,6 +86,11 @@ constructor(private fb: FormBuilder,private service: ReportService,private http:
     dr_dwelloperand1: [0],
     // dr_dwelloperator2: ['',Validators.required],
     // dr_dwelloperand2: [0]
+  });
+
+  this.form.get('dr_category').valueChanges.subscribe((selectedCategoryId: any) => {
+    const selectedCategory = this.categoriesname.find((category: any) => category.value === selectedCategoryId);
+    this.selectedCategoryName = selectedCategory ? selectedCategory.label : '';
   });
 
   }
@@ -135,7 +144,13 @@ exportExcel(){
      { s: { r: 1, c: 1 }, e: { r: 2, c: 6 } },
    ];
    ws['!merges'] = merge;
-   XLSX.utils.sheet_add_aoa(ws, [['Dwell Report Details']], { origin: 'B2' });
+  // Generate the report title based on selectedCategoryName
+  const reportTitle = this.selectedCategoryName
+    ? `Dwell Report Details for   ${this.selectedCategoryName}`
+    : 'Dwell Report Details';
+
+  // Add the title with the selected category name or fallback
+  XLSX.utils.sheet_add_aoa(ws, [[reportTitle]], { origin: 'B2' });
 
 
    // Leave 2 empty rows
@@ -165,6 +180,17 @@ exportExcel(){
     tableData.push(rowData);
   }
   XLSX.utils.sheet_add_aoa(ws, tableData, { origin: 'B6' });
+  // Setting the column widths for better spacing
+  ws['!cols'] = [
+    { wch: 1 }, // Column for S.No
+    { wch: 30 }, // Column for Entry location
+    { wch: 20 }, // Column for Entry time
+    { wch: 20 }, // Column for Exit location
+    { wch: 20 },  // Column for Exit time
+    { wch: 20 },  // Column for Exit time
+    { wch: 20 },  // Column for Exit time
+    { wch: 20 },  // Column for Exit time
+];
 
   for (var i in ws) {
     if (typeof ws[i] != 'object') continue;

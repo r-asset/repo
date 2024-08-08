@@ -40,7 +40,6 @@ export class WorkflowService {
       body : body,
       params
     });
-    // console.log(options);
     return this.http.delete(this.url + endpoint + '/',options)
   }
   deleteDatas(endpoint:string, code:any){

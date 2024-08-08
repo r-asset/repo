@@ -30,6 +30,7 @@ sites: any[] = [];
 areas: any[] = [];
 zones: any[] = [];
 category: any[] = [];
+categoriesname: any = [];
 
 // siteurl = 'assets/site.json'
 // zoneurl = 'assets/zone.json'
@@ -47,6 +48,8 @@ staticData: any[] = [
   { col1: 'Row 9 Col 1', col2: 'Row 9 Col 2', col3: 'Row 9 Col 3', col4: 'Row 9 Col 4' },
   { col1: 'Row 10 Col 1', col2: 'Row 10 Col 2', col3: 'Row 10 Col 3', col4: 'Row 10 Col 4' },
 ];
+  selectedCategoryName: any;
+
 
 constructor(private fb: FormBuilder,private service:ReportService,private http: HttpClient)
 {
@@ -54,30 +57,36 @@ constructor(private fb: FormBuilder,private service:ReportService,private http: 
 }
 ngOnInit(): void {
   this.form = this.fb.group({
-    mpl_frmdte:  ['',Validators.required],
-    mpl_todte:  ['',Validators.required],
-
-    mpl_startlocation:['',Validators.required],
-    mpl_endlocation:['',Validators.required],
-    mpl_category:['',Validators.required],
+    mpl_frmdte:  ['', Validators.required],
+    mpl_todte:  ['', Validators.required],
+    mpl_startlocation: ['', Validators.required],
+    mpl_endlocation: ['', Validators.required],
+    mpl_category: ['', Validators.required],
   });
-  this.service.getData("businesslocations/site").subscribe(res=>{
+
+  // Fetch site, area, zone, and category data
+  this.service.getData("businesslocations/site").subscribe(res => {
     this.sites = res;
-});
+  });
 
-   this.service.getData("businesslocations/area").subscribe(res=>{
-    this.areas=res
-   });
+  this.service.getData("businesslocations/area").subscribe(res => {
+    this.areas = res;
+  });
 
-   this.service.getData("businesslocations/zone").subscribe(res=>{
-    this.zones=res
+  this.service.getData("businesslocations/zone").subscribe(res => {
+    this.zones = res;
+  });
 
-   });
-   this.service.getData("category/data").subscribe(res=>{
-    this.category=res
-
-   });
+  this.service.getData("category/data").subscribe(res => {
+    this.category = res;
+    this.categoriesname = res.map((category: any) => ({ label: category.cm_name, value: category.cm_id }));
+  });
+  this.form.get('mpl_category').valueChanges.subscribe((selectedCategoryId: any) => {
+    const selectedCategory = this.categoriesname.find((category: any) => category.value === selectedCategoryId);
+    this.selectedCategoryName = selectedCategory ? selectedCategory.label : '';
+  });
 }
+
 showDialog() {
   this.visible = true;
 }
@@ -124,7 +133,13 @@ exportExcel(){
      { s: { r: 1, c: 1 }, e: { r: 2, c: 6 } },
    ];
    ws['!merges'] = merge;
-   XLSX.utils.sheet_add_aoa(ws, [['Movements Per Location Details']], { origin: 'B2' });
+       // Generate the report title based on selectedCategoryName
+       const reportTitle = this.selectedCategoryName
+       ? `Asset Availability Report Details for   ${this.selectedCategoryName}`
+       : 'Asset Availability Report Details';
+
+     // Add the title with the selected category name or fallback
+     XLSX.utils.sheet_add_aoa(ws, [[reportTitle]], { origin: 'B2' });
 
 
    // Leave 2 empty rows
@@ -154,6 +169,17 @@ exportExcel(){
     tableData.push(rowData);
   }
   XLSX.utils.sheet_add_aoa(ws, tableData, { origin: 'B6' });
+          // Setting the column widths for better spacing
+          ws['!cols'] = [
+            { wch: 1 }, // Column for S.No
+            { wch: 30 }, // Column for Entry location
+            { wch: 20 }, // Column for Entry time
+            { wch: 20 }, // Column for Exit location
+            { wch: 20 },  // Column for Exit time
+            { wch: 20 },  // Column for Exit time
+            { wch: 20 },  // Column for Exit time
+            { wch: 20 },  // Column for Exit time
+          ];
 
   for (var i in ws) {
     if (typeof ws[i] != 'object') continue;

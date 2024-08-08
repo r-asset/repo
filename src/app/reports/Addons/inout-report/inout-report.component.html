@@ -25,7 +25,11 @@
                         <p-dropdown  id="dropdown" [options]="areasname" formControlName="io_areaid" placeholder="Select" class="w-full" ></p-dropdown>
                 </div>
                 <div class="field">
-                  <label for="dropdown" class="block mb-2" style="width:100px;font-size:13px">Select Zone </label>
+                  <label for="dropdown" class="block mb-2" style="width:100px;font-size:13px">Start Zone </label>
+                  <p-dropdown id="dropdown" [options]="zonesname" formControlName="io_zoneid" placeholder="Select" class="w-full" ></p-dropdown>
+                </div>
+                <div class="field">
+                  <label for="dropdown" class="block mb-2" style="width:100px;font-size:13px">End Zone</label>
                   <p-dropdown id="dropdown" [options]="zonesname" formControlName="io_zoneid" placeholder="Select" class="w-full" ></p-dropdown>
                 </div>
 
@@ -60,7 +64,7 @@
         </span>
 
         <div class="heading">
-            <h6 class="pt-2" style="text-align: center; font-size: 1.3rem;  font-weight: bolder;" >In-Out Report</h6>
+            <h6 class="pt-2" style="text-align: center; font-size: 1.3rem;  font-weight: bolder;" >In-Out Report for&nbsp; <span style="color: #da2020; font-size: 1.2rem;">'{{selectedCategoryName }}'</span> </h6>
         </div>
 
         <div class="tablehead pb-2 pt-2 mr-2">

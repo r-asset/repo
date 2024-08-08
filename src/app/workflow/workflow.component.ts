@@ -1,3 +1,4 @@
+import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -7,6 +8,7 @@ import { Table } from 'primeng/table';
 import { ItemManagementService } from '../item-management/Add-ons/service/item-management.service';
 import { SettingsService } from '../settings/Add-ons/service/settings.service';
 import * as XLSX from "xlsx-js-style";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-workflow',
@@ -19,6 +21,9 @@ myTable!: Table;
 dropdown: any;
 selectedEvent = '' ;
 
+date = new Date()
+pipe = new DatePipe('en-US');
+
 date3: Date | undefined;
 
 tableData!: any ;
@@ -26,6 +31,7 @@ loading: boolean = false;
 
 display: boolean=false;
 Addform: any;
+Addform2: any;
 Editform: any;
 Editform2:any
 Editpopup: any;
@@ -70,19 +76,19 @@ endpoint2 = 'workflow/ticketmanagement'
     }
   }
 
-constructor(private http: HttpClient,private fb:FormBuilder,private service: WorkflowService,private messageService: MessageService,private Itemservice: ItemManagementService, private SettingsService: SettingsService)  {
+constructor(private http: HttpClient,private fb:FormBuilder,private cookie:CookieService,private service: WorkflowService,private messageService: MessageService,private Itemservice: ItemManagementService, private SettingsService: SettingsService)  {
   this.dropdown = [
       {name: 'None',       },
       {name: 'Daily Status Report', code: 'Last Report'},
-      {name: 'Absence Report',     code: 'Absence'},
+      // {name: 'Absence Report',     code: 'Absence'},
 
   ];
-   this.priorityLevel = [
-    {name: 'HIGH'      , code:'High'},
-    {name: 'MEDIUM'    , code:'Medium'},
-    {name: 'LOW'       , code:'Low'},
-    {name: 'CRITICAL'  , code:'Critical'}
-   ];
+  //  this.priorityLevel = [
+  //   {name: 'HIGH'      , code:'High'},
+  //   {name: 'MEDIUM'    , code:'Medium'},
+  //   {name: 'LOW'       , code:'Low'},
+  //   {name: 'CRITICAL'  , code:'Critical'}
+  //  ];
 }
 
 categories:any;
@@ -119,93 +125,60 @@ ngOnInit(): void {
    });
    this.Addform = this.fb.group({
 
-    wfeventcode     :['', Validators.required],
+    wfeventcode     :[""],
     wfeventname     :['', Validators.required],
-    wfeventgroup    :['', Validators.required],
     wfresetinterval :[0],
-    wfpriority      :['', Validators.required],
-    wfactive        :['', Validators.required],
     wfdescription   :['', Validators.required],
-    wfalertmessage  :['', Validators.required],
-    wfcorrectmessage:['', Validators.required],
-    wfcreatedon     :['', Validators.required],
-    wfcreatedby     :['', Validators.required],
-    wfmodifiedon    : [""],
-    wfmodifiedby   : [""],
-    sstatus        : [],
-    scondition     :[],
-    sclassification:  [true],
-    scategory:  [],
-    sitem:    [],
-    rmeacht:[0],
+    wfcreatedon     :[''],
+    wfcreatedby     :[''],
+    wfmodifiedon    : [''],
+    wfmodifiedby   : [''],
     atoemail:  ['', [Validators.email, Validators.maxLength(255)]],
-    accmail:   ['', Validators.required],
     asubject:  ['', Validators.required],
-    apriority: ['', Validators.required],
-    amessage:  ['', Validators.required],
-    wfdays:[0],
-    wfmins:[0],
-    wfhrs:[0],
+    amessage:  [''],
     stime: ['', Validators.required],
-    wftype:['', Validators.required],
-    schedule_days: new FormGroup({
-      ssun: new FormControl(),
-      smon: new FormControl(),
-      stue: new FormControl(),
-      swed: new FormControl(),
-      sthu: new FormControl(),
-      sfri: new FormControl(),
-      ssat: new FormControl(),
+    schedule_days: this.fb.group({
+      ssun: [false],
+      smon: [false],
+      stue: [false],
+      swed: [false],
+      sthu: [false],
+      sfri: [false],
+      ssat: [false],
     }),
-    tm_code:[''],
-    tm_description: ['',Validators.required],
-    tm_createdon: ['',Validators.required],
-    tm_createdby: ['',Validators.required],
-    tm_status: ['',Validators.required],
-    tm_modifiedby: ['',Validators.required],
-
 });
+
+this.Addform2 = this.fb.group({
+  tm_code:[''],
+  tm_description: ['',Validators.required],
+  tm_createdon: ['',Validators.required],
+  tm_createdby: ['',Validators.required],
+  tm_status: ['',Validators.required],
+  tm_modifiedby: ['',Validators.required],
+})
 this.Editform = this.fb.group({
 
   wfeventcode     :['', Validators.required],
   wfeventname     :['', Validators.required],
-  wfeventgroup    :['', Validators.required],
   wfresetinterval :[0],
-  wfpriority      :['', Validators.required],
-  wfactive        :['', Validators.required],
   wfdescription   :['', Validators.required],
-  wfalertmessage  :['', Validators.required],
-  wfcorrectmessage:['', Validators.required],
   wfcreatedon     :['', Validators.required],
   wfcreatedby     :['', Validators.required],
   wfmodifiedon    : [""],
   wfmodifiedby   : [""],
-  sstatus        : [],
-
-  scondition     :[],
-  sclassification:  [true],
-  scategory:  [],
-  sitem:    [],
-  rmeacht:[0],
   atoemail:  ['', Validators.required],
-  accmail:   ['', Validators.required],
   asubject:  ['', Validators.required],
-  apriority: ['', Validators.required],
   amessage:  ['', Validators.required],
-  wfdays:[0],
-  wfmins:[0],
-  wfhrs:[0],
   stime: ['', Validators.required],
-  wftype:['', Validators.required],
-  schedule_days: new FormGroup({
-    ssun: new FormControl(),
-    smon: new FormControl(),
-    stue: new FormControl(),
-    swed: new FormControl(),
-    sthu: new FormControl(),
-    sfri: new FormControl(),
-    ssat: new FormControl(),
-  }),
+  schedule_days: this.fb.array([]), // or the appropriate initialization
+  ssun: [false],
+  smon: [false],
+  stue: [false],
+  swed: [false],
+  sthu: [false],
+  sfri: [false],
+  ssat: [false]
+
 });
 this.Editform2 = this.fb.group({
   tm_code: [''],
@@ -236,58 +209,93 @@ codeEndpoint = 'wfcode'
   }
 
   selectedData: any = null
+  updatedData: any
+  Update(updatedData: any ) {
+    this.Editpopup= false;
+    const index = this.tableData.findIndex((row: any) => row.wfcode === this.selectedData.wfcode);
 
-  Update(Update:any){
-    const i = this.tableData.findIndex((user:any) => user.wfcode === this.selectedData.wfcode);
-    this.tableData[i] = Update;
+    if (index !== -1) {
+      // Update the row with the new data
+      this.tableData[index] = { ...this.tableData[index], ...updatedData };
+    } else {
+      console.error("Row not found");
+    }
+
+    // Trigger change detection manually if needed
+    this.tableData = [...this.tableData]; // This creates a new reference to trigger Angular's change detection
   }
+
+
 
 openDialog(){
   this.display = true;
   this.service.getData(this.codeEndpoint).subscribe(
     res =>{
-    let code = res.wfcode
-    this.Addform.get('wfcode')?.setValue(code)
+    let code = res.wfeventcode
+    this.Addform.get('wfeventcode')?.setValue(code)
+    let username = this.cookie.get('username');
+    let modifiedon = this.pipe.transform(this.date,'yyyy-dd-mm');
+    this.Addform.controls['wfmodifiedon'].setValue(modifiedon);
+    this.Addform.controls['wfmodifiedby'].setValue(username);
+    this.Addform.controls['wfcreatedon'].setValue(modifiedon);
+    this.Addform.controls['wfcreatedby'].setValue(username);
+    console.log(code);
   })
 }
-
+getSelectedDays(days: any): string[] {
+  return Object.keys(days).filter(key => days[key]).map(key => key.substring(1));
+}
 onSubmit() {
+  this.display= false;
   if (this.Addform.invalid) {
     this.Addform.markAllAsTouched(); // Mark all fields as touched
     return;
   }
-  const stimeControl = this.Addform.get('stime');
-  if (stimeControl && stimeControl.value) {
-    const date = new Date(stimeControl.value);
-    stimeControl.setValue(date.toISOString().split('T')[0]); // Format to yyyy-mm-dd
-  }
-  // Handle valid form submission
+  const formValue = this.Addform.value;
+  const stimeISO = this.convertTimeToISO(formValue.stime);
+  formValue.stime = stimeISO;
 }
-AddNewForm(){
+convertTimeToISO(time: string): string {
+  const [hours, minutes] = time.split(':');
+  const now = new Date();
+  now.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
+  return now.toISOString();
+}
+AddNewForm() {
   const formValue = this.Addform.value;
   if (formValue.stime) {
-    const date = new Date(formValue.stime);
-    formValue.stime = date.toISOString().split('T')[0]; // Format to yyyy-mm-dd
+    const [hours, minutes] = formValue.stime.split(':');
+    formValue.stime = `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
   }
-  this.service.postData(this.endpoint,this.Addform.value).subscribe(
-     res =>{
-      this.SavaData(this.Addform.value)
-      this.display = true;
-      this.Addform.reset()
-      this.messageService.add({ severity: 'success', summary: 'Added', detail:'Sucessfully', life: 4000 });
-    },
-     error => {
-      this.messageService.add({ severity: 'error', summary: 'Not Added', detail: 'Failed', life: 4000 });
-      console.log("Error")
-    }
+  formValue.schedule_days = this.getSelectedDays(formValue.schedule_days);
 
-    )
-    console.log('formValue',this.Addform.value)
+  this.service.postData(this.endpoint, this.Addform.value).subscribe(
+    res => {
+      this.SavaData(this.Addform.value);
+      this.display = false;
+      this.Addform.reset();
+      this.messageService.add({ severity: 'success', summary: 'Added', detail: 'Successfully', life: 4000 });
+    },
+    error => {
+      this.messageService.add({ severity: 'error', summary: 'Not Added', detail: 'Failed', life: 4000 });
+      console.log("Error");
+    }
+  );
+  console.log('formValue', this.Addform.value);
 }
+
 EditForm(){
+  const formValue = this.Editform.value;
+    // Ensure formValue.schedule_days is defined and an array
+    const daysArray: string[] = Array.isArray(formValue.schedule_days) ? formValue.schedule_days : [];
+
+    // Use the conversion method to get the updated checkbox values
+    const convertedDays = this.convertScheduledDays(daysArray);
+  // formValue.schedule_days = this.getSelectedDays(formValue.schedule_days);
   this.service.putData(this.endpoint, this.Editform.value).subscribe(
     update =>{
       this.Update(this.Editform.value)
+      this.loadItems1();
       this.messageService.add({ severity: 'info', summary: 'Updated', detail:'Sucessfully', life: 4000 });
     },
     error => {
@@ -295,30 +303,75 @@ EditForm(){
       console.log("Error")
     }
   )
+  this.Editform.patchValue({
+    ...formValue,
+    ...convertedDays
+  });
+   console.log('Form values after patch:', this.Editform.value);
  }
+ loadItems1() {
+  // Fetch the items from the server and assign them to the items array
+  this.service.getData(this.endpoint).subscribe(
+    (data: any[]) => {
+      this.tableData = data;
+    },
+    (error) => {
+      console.error('Failed to load items', error);
+    }
+  );
+}
+convertScheduledDays(daysArray: string[]): any {
+  // Initialize all checkboxes to false
+  const schedule = {
+    ssun: false,
+    smon: false,
+    stue: false,
+    swed: false,
+    sthu: false,
+    sfri: false,
+    ssat: false
+  };
 
+  // Update checkboxes based on the daysArray
+  daysArray.forEach((day: string) => {
+    switch(day.trim().toLowerCase()) {
+      case 'sun': schedule.ssun = true; break;
+      case 'mon': schedule.smon = true; break;
+      case 'tue': schedule.stue = true; break;
+      case 'wed': schedule.swed = true; break;
+      case 'thu': schedule.sthu = true; break;
+      case 'fri': schedule.sfri = true; break;
+      case 'sat': schedule.ssat = true; break;
+    }
+  });
+
+  return schedule;
+}
  editRow(i: any){
   this.Editpopup= true;
     this.selectedData = i;
-    this.Editform.patchValue(this.selectedData)
+    this.Editform.patchValue(this.selectedData);
+    this.selectedData = { ...this.tableData[i] };
 }
 
-deleteRow(i:any){
-  this.service.deleteDatas(this.endpoint, i.wfcode).subscribe(
-     () =>{
-      this.Editpopup = false
-      console.log(i.wfcode);
-      this.tableData.splice(i,1)
+deleteRow(item: any) {
+  this.service.deleteDatas(this.endpoint, item.wfeventcode).subscribe(
+    () => {
+      this.Editpopup = false;
+      console.log(item.wfeventcode);
+      const index = this.tableData.indexOf(item);
+      if (index !== -1) {
+        this.tableData.splice(index, 1);
+      }
       this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'Successfully', life: 4000 });
     },
     error => {
       this.messageService.add({ severity: 'error', summary: 'Not Deleted', detail: 'Failed', life: 4000 });
-      console.log("Error");
+      console.error('Error deleting row:', error);
     }
-
-  )
-
+  );
 }
+
 //ticket management
 ticketEndpoint = 'ticketcode'
 code: any;
@@ -336,7 +389,7 @@ openTicket() {
     res => {
       this.code = res.tm_code;
       const formattedDate = new Date(res.created_on).toISOString().split('T')[0];
-      this.Addform.patchValue({
+      this.Addform2.patchValue({
         tm_code: res.tm_code,
         tm_createdon: formattedDate,
       });
@@ -348,16 +401,16 @@ openTicket() {
 }
 
 AddNewForm2(){
-  const formValue = this.Addform.value;
+  const formValue = this.Addform2.value;
   if (formValue.tm_createdon) {
     const date = new Date(formValue.tm_createdon);
     formValue.tm_createdon = date.toISOString().split('T')[0]; // Format to yyyy-mm-dd
   }
-  this.service.postData(this.endpoint2,this.Addform.value).subscribe(
+  this.service.postData(this.endpoint2,this.Addform2.value).subscribe(
      res =>{
-      this.SavaData2(this.Addform.value)
+      this.SavaData2(this.Addform2.value)
       this.displays = false;
-      this.Addform.reset()
+      this.Addform2.reset()
       this.messageService.add({ severity: 'success', summary: 'Added', detail:'Sucessfully', life: 4000 });
     },
      error => {
@@ -366,7 +419,7 @@ AddNewForm2(){
     }
 
     )
-    console.log('formValue',this.Addform.value)
+    console.log('formValue',this.Addform2.value)
 }
 editRow2(i: any) {
   this.Editpopup2 = true;
@@ -422,6 +475,9 @@ loadItems() {
   );
 }
 
+
+
+//Excel Configurations
 exportExcel(){
   const table = document.getElementById('dom');
 

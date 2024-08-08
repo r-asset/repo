@@ -27,6 +27,7 @@ export class InoutReportComponent {
   formgroup: boolean = false;
   displaytable: boolean = false;
   showloader: boolean = false;
+  selectedCategoryName: any;
 
   constructor(private service: ReportService, private fb: FormBuilder, private http: HttpClient) { }
 
@@ -54,6 +55,10 @@ export class InoutReportComponent {
 
     this.service.getData("category/data").subscribe(res => {
       this.categoriesname = res.map((category: any) => ({ label: category.cm_name, value: category.cm_id }));
+    });
+    this.form.get('io_category').valueChanges.subscribe((selectedCategoryId: any) => {
+      const selectedCategory = this.categoriesname.find((category: any) => category.value === selectedCategoryId);
+      this.selectedCategoryName = selectedCategory ? selectedCategory.label : '';
     });
   }
 
@@ -106,7 +111,13 @@ export class InoutReportComponent {
       { s: { r: 1, c: 1 }, e: { r: 2, c: 6 } },
     ];
     ws['!merges'] = merge;
-    XLSX.utils.sheet_add_aoa(ws, [['In-Out Report Details']], { origin: 'B2' });
+      // Generate the report title based on selectedCategoryName
+  const reportTitle = this.selectedCategoryName
+  ? `In & OUT Report Details for   ${this.selectedCategoryName}`
+  : 'In & OUT Report Details';
+
+// Add the title with the selected category name or fallback
+XLSX.utils.sheet_add_aoa(ws, [[reportTitle]], { origin: 'B2' });
 
     // Leave 2 empty rows
     XLSX.utils.sheet_add_aoa(ws, [['']], { origin: 'B3' });
@@ -134,6 +145,17 @@ export class InoutReportComponent {
       tableData.push(rowData);
     }
     XLSX.utils.sheet_add_aoa(ws, tableData, { origin: 'B6' });
+      // Setting the column widths for better spacing
+  ws['!cols'] = [
+    { wch: 1 }, // Column for S.No
+    { wch: 30 }, // Column for Entry location
+    { wch: 20 }, // Column for Entry time
+    { wch: 20 }, // Column for Exit location
+    { wch: 20 },  // Column for Exit time
+    { wch: 20 },  // Column for Exit time
+    { wch: 20 },  // Column for Exit time
+    { wch: 20 },  // Column for Exit time
+  ];
 
     for (var i in ws) {
       if (typeof ws[i] != 'object') continue;

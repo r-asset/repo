@@ -272,7 +272,7 @@ OnSubmit(){
   }
   this.showloader=false
 }
-exportExcel(){
+exportExcel() {
   const table = document.getElementById('dom');
 
   if (!table) {
@@ -282,24 +282,27 @@ exportExcel(){
 
   const wb: XLSX.WorkBook = XLSX.utils.book_new();
   const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
-
   const merge = [
-     { s: { r: 1, c: 1 }, e: { r: 2, c: 6 } },
-   ];
-   ws['!merges'] = merge;
-   XLSX.utils.sheet_add_aoa(ws, [['Path Tracking Details']], { origin: 'B2' });
+    { s: { r: 1, c: 1 }, e: { r: 2, c: 6 } },
+  ];
+  ws['!merges'] = merge;
 
+    // Check if AssetDetails is defined and has the item_name property
+    const reportTitle = this.AssetDetails && this.AssetDetails.item_name
+        ? `Path Tracking Report for ${this.AssetDetails.item_name}`
+        : 'Path Tracking Report';
 
-   // Leave 2 empty rows
-   XLSX.utils.sheet_add_aoa(ws, [['']], { origin: 'B3' });
-   XLSX.utils.sheet_add_aoa(ws, [['']], { origin: 'B4' });
+    XLSX.utils.sheet_add_aoa(ws, [[reportTitle]], { origin: 'B2' });
+  // Leave 2 empty rows
+  XLSX.utils.sheet_add_aoa(ws, [['']], { origin: 'B3' });
+  XLSX.utils.sheet_add_aoa(ws, [['']], { origin: 'B4' });
 
-   const headerRow = table.querySelector('thead tr');
+  const headerRow = table.querySelector('thead tr');
 
-   if (headerRow) {
+  if (headerRow) {
     const headerData = [];
     const headerCells = headerRow.getElementsByTagName('th');
-    for (let i = 0; i < headerCells.length ; i++) {
+    for (let i = 0; i < headerCells.length; i++) {
       headerData.push(headerCells[i].textContent);
     }
     XLSX.utils.sheet_add_aoa(ws, [headerData], { origin: 'B5' });
@@ -308,75 +311,79 @@ exportExcel(){
   const tableData = [];
   const rows = table.querySelectorAll('tbody tr');
   for (let i = 0; i < rows.length; i++) {
-   const rowData = [];
-   const cells = rows[i].getElementsByTagName('td');
-   for (let j = 0; j < cells.length ; j++) {
-     // Skip the first and last cells in each row
-     rowData.push(cells[j].textContent);
+    const rowData = [];
+    const cells = rows[i].getElementsByTagName('td');
+    for (let j = 0; j < cells.length; j++) {
+      rowData.push(cells[j].textContent);
     }
     tableData.push(rowData);
   }
   XLSX.utils.sheet_add_aoa(ws, tableData, { origin: 'B6' });
+      // Setting the column widths for better spacing
+      ws['!cols'] = [
+        { wch: 10 }, // Column for S.No
+        { wch: 20 }, // Column for Entry location
+        { wch: 20 }, // Column for Entry time
+        { wch: 20 }, // Column for Exit location
+        { wch: 20 },  // Column for Exit time
+        { wch: 20 },  // Column for Exit time
+    ];
 
   for (var i in ws) {
     if (typeof ws[i] != 'object') continue;
-      let cell = XLSX.utils.decode_cell(i);
+    let cell = XLSX.utils.decode_cell(i);
 
+    ws[i].s = {
+      font: {
+        italic: true,
+      },
+      alignment: {
+        vertical: 'center',
+        horizontal: 'center',
+      },
+      border: {
+        right: { style: 'thin' },
+        left: { style: 'thin' },
+        top: { style: 'thin' },
+        bottom: { style: 'thin' },
+      },
+    };
+    if (cell.r == 1) {
       ws[i].s = {
-            font: {
-              italic: true,
-            },
-            alignment: {
-              vertical: 'center',
-              horizontal: 'center',
-            },
-            border: {
-              right: {style: 'thin'},
-              left: {style: 'thin'},
-              top : {style: 'thin'},
-              bottom: {style: 'thin'},
-            },
-
-          }
-          if (cell.r == 1) {
-            ws[i].s = {
-              font: {
-                // italic: true,
-                sz:'15',
-                color:{ rgb: 'FF0000' },
-              },
-              alignment: {
-                vertical: 'center',
-                horizontal: 'center',
-              },
-            }
-          }
-          // heading row
-          if (cell.r == 4) {
-            ws[i].s = {
-              font: {
-                bold:true,
-                color:{ rgb: 'fffcfd' },
-              },
-              alignment: {
-                vertical: 'center',
-                horizontal: 'center',
-              },
-              border: {
-                right: {style: 'thin'},
-                left: {style: 'thin'},
-                top : {style: 'thin'},
-                bottom: {style: 'thin'},
-              },
-            }
-            ws[i].s.fill = {
-                  // background color
-                    patternType: 'solid',
-                    fgColor: { rgb: 'ff3030' },
-                    bgColor: { rgb: 'ff3030' },
-                  };
-          }
-
+        font: {
+          sz: '14',
+          color: { rgb: 'FF0000' },
+        },
+        alignment: {
+          vertical: 'center',
+          horizontal: 'center',
+        },
+      };
+    }
+    // heading row
+    if (cell.r == 4) {
+      ws[i].s = {
+        font: {
+          bold: true,
+          color: { rgb: 'fffcfd' },
+        },
+        alignment: {
+          vertical: 'center',
+          horizontal: 'center',
+        },
+        border: {
+          right: { style: 'thin' },
+          left: { style: 'thin' },
+          top: { style: 'thin' },
+          bottom: { style: 'thin' },
+        },
+        fill: {
+          patternType: 'solid',
+          fgColor: { rgb: 'ff3030' },
+          bgColor: { rgb: 'ff3030' },
+        },
+      };
+    }
   }
 
   const cellB4 = 'B4';
@@ -390,8 +397,8 @@ exportExcel(){
   };
   ws[cellB4].s = cellB4Style;
 
-
-  XLSX.utils.book_append_sheet(wb,ws);
-  XLSX.writeFile(wb,'Path-Tracking_Report.xlsx')
+  XLSX.utils.book_append_sheet(wb, ws);
+  XLSX.writeFile(wb, 'Path-Tracking_Report.xlsx');
 }
+
 }

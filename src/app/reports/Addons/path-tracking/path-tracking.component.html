@@ -52,7 +52,7 @@
           </span>
 
           <div class="heading">
-              <h6 class="pt-2" style="text-align: center;font-size: 1.3rem; font-weight: bolder;" >Path Tracking</h6>
+              <span><h6 class="pt-2" style="text-align: center;font-size: 1rem; font-weight: bolder;" >Path Tracking report for&nbsp;  <span style="color: #da2020; font-size: 1.2rem;">"{{AssetDetails.item_name}}"</span>  </h6></span>
           </div>
 
           <div class="tablehead pb-2 pt-2 mr-2">
@@ -80,9 +80,15 @@
               <ng-template pTemplate="body" let-i let-rowIndex="rowIndex +1">
                   <tr>
                       <td>{{ rowIndex }}</td>
-                      <td>{{ i.from }}</td>
+                      <td>{{ i.from }}
+                        <img *ngIf="i.from === 'MATE III - IN'" src="../../../../assets/icons/in2.png" alt="IN" style="width: 13px; height: 13px; margin-left: 35px;">
+                        <img *ngIf="i.from === 'MATE III - OUT'" src="../../../../assets/icons/truck.png" alt="OUT" style="width: 13px; height: 13px; margin-left: 25px;">
+                      </td>
                       <td>{{ i.entrytime }}</td>
-                      <td>{{ i.to }}</td>
+                      <td>{{ i.to }}
+                        <img *ngIf="i.to === 'MATE III - IN'" src="../../../../assets/icons/in2.png" alt="IN" style="width: 13px; height: 13px; margin-left: 35px;">
+                        <img *ngIf="i.to === 'MATE III - OUT'" src="../../../../assets/icons/truck.png" alt="OUT" style="width: 13px; height: 13px; margin-left: 25px;">
+                      </td>
                       <td>{{ i.exittime }}</td>
 
                   </tr>

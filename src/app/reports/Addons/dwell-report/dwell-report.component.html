@@ -39,9 +39,10 @@
                     <label for="dropdown"  class="block mb-2" style="width:100px;font-size:13px">Dwell Value </label>
                     <p-dropdown  id="dropdown" formControlName="dr_dwelloperator1" [options]="dwellValue" optionLabel="name" optionValue="code" placeholder="Select" ></p-dropdown> &nbsp;
                   </div>
-                  <!-- <div class="field" style="top: 10px">
+                  <div class="field" style="width: 60px;">
+                    <label for="dropdown"  class="block mb-2" style="width:100px;font-size:13px">Value </label>
                     <input type="number" formControlName="dr_dwelloperand1" pInputText  placeholder="0"  />
-                  </div> -->
+                  </div>
                   <div class="field ">
                     <p-button label="Apply Filter" type="submit" class="block mt-3 pt-2"  icon="pi pi-search" styleClass="p-button-danger" [disabled]="!form.valid" ></p-button>
                   </div>
@@ -66,7 +67,7 @@
         </span>
 
         <div class="heading">
-            <h6 style="text-align: center;font-size: 1.3rem; font-weight: bolder;"  >Dwell Report</h6>
+            <h6 style="text-align: center;font-size: 1.3rem; font-weight: bolder;"  >Dwell Report for&nbsp; <span style="color: #da2020; font-size: 1.2rem;">'{{selectedCategoryName }}'</span></h6>
         </div>
 
         <div class="tablehead pb-2 pt-2 mr-2">

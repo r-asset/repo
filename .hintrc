@@ -10,7 +10,9 @@
       {
         "ignore": [
           "width: fit-content",
-          "min-width: fit-content"
+          "min-width: fit-content",
+          "scrollbar-width",
+          "overscroll-behavior"
         ]
       }
     ],
